@@ -6,6 +6,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 export class User extends GlobalUser {
   @ApiProperty()
   @Prop()
+  _id: string;
+
+  @ApiProperty()
+  @Prop()
   fingerPrint: string;
 
   @ApiProperty()

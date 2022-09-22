@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
 import { AppController } from './app.controller';
@@ -10,8 +11,10 @@ import { UserModule } from './modules/user/user.module';
   imports: [
     AuthModule,
     UserModule,
-    //EventEmitterModule.forRoot(),
-    MongooseModule.forRoot(`mongodb://localhost/${process.env.DB_NAME}`),
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(
+      `mongodb+srv://root:root@cluster0.vahx0yk.mongodb.net/${process.env.DB_NAME}`,
+    ),
     MulterModule.register({
       dest: '../uploads',
     }),
