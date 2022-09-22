@@ -45,7 +45,7 @@ export class AdminService {
   }
 
   findOne(id: string) {
-    return this.adminRepository.findOne({ where: { id } });
+    return this.adminRepository.findById(id);
   }
 
   async update(id: number, updateAdminDto: UpdateAdminDto) {
@@ -57,11 +57,8 @@ export class AdminService {
   }
 
   findByEmail(email: string) {
-    //console.log(transformer.to(email));
-
     return this.adminRepository.findOne({
-      where: { email /*: transformer.to(email) */ },
-      relations: ['regions'],
+      email,
     });
   }
 
