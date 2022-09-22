@@ -17,7 +17,6 @@ import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { FilterUserDto } from '../dto/filter.dto';
 import { User } from 'src/modules/auth/decorators/current-user.decorator';
-import { Public } from 'src/modules/auth/decorators/public.decorator';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('user')
@@ -26,7 +25,7 @@ import { Public } from 'src/modules/auth/decorators/public.decorator';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Public()
+  @Roles(Role.Admin)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
@@ -38,7 +37,7 @@ export class UserController {
     return this.userService.findByEmail(user.email);
   }
 
-  @Roles(Role.Admin, Role.SuperAdmin)
+  @Roles(Role.Admin)
   @Get()
   findAll(@Query() filter: FilterUserDto, @User() user) {
     return this.userService.findAll(
@@ -47,11 +46,13 @@ export class UserController {
     );
   }
 
+  @Roles(Role.Admin)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
 
+  @Roles(Role.Admin)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
@@ -63,6 +64,7 @@ export class UserController {
     return this.userService.update(user.id, updateUserDto);
   }
 
+  @Roles(Role.Admin)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);

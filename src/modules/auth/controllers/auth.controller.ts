@@ -1,7 +1,8 @@
 import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { LoginRequest } from '../dto/request-auth.dto';
+import { BiometricLoginRequest, LoginRequest } from '../dto/request-auth.dto';
 import {
+  BiometricUserAuthGuard,
   LocalAdminAuthGuard,
   LocalUserAuthGuard,
 } from '../guards/local-auth.guard';
@@ -22,6 +23,15 @@ export class AuthController {
   @UseGuards(LocalUserAuthGuard)
   @Post('user')
   loginLocalUser(@Body() loginRequest: LoginRequest, @User() user) {
+    return this.authService.login(user);
+  }
+
+  @UseGuards(BiometricUserAuthGuard)
+  @Post('user/biometric')
+  biometricLoginLocalUser(
+    @Body() loginRequest: BiometricLoginRequest,
+    @User() user,
+  ) {
     return this.authService.login(user);
   }
 }

@@ -7,3 +7,11 @@ export class LoginRequest {
   @ApiProperty()
   password: string;
 }
+
+export class BiometricLoginRequest {
+  @ApiProperty()
+  email: string;
+
+  @ApiProperty()
+  key: string;
+}

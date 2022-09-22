@@ -11,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 import { FilterUserDto } from '../dto/filter.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { generateApiKey } from 'generate-api-key';
 
 @Injectable()
 export class UserService {
@@ -25,7 +26,10 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) {
     createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
-    const user = await this.userRepository.create(createUserDto);
+    const user = await this.userRepository.create({
+      ...createUserDto,
+      apiKey: generateApiKey({ method: 'base32' }),
+    });
     return this.userRepository.findById(user.id);
   }
 
@@ -35,13 +39,7 @@ export class UserService {
 
   findByEmail(email: string) {
     return this.userRepository.findOne({
-      where: { email },
-      relations: {
-        unv: true,
-        nri: true,
-        specialities: true,
-        notifications: true,
-      },
+      email,
     });
   }
 

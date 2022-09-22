@@ -37,6 +37,10 @@ export class GlobalUser {
   @Prop()
   connections: number;
 
+  @ApiProperty()
+  @Prop({ default: false })
+  isAdmin: boolean;
+
   async checkPassword(password) {
     return await bcrypt.compare(password, this.password);
   }

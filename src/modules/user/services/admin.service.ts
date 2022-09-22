@@ -30,7 +30,7 @@ export class AdminService {
         email: 'jouini.hamza@innosys.tech',
         firstName: 'jouini',
         lastName: 'hamza',
-        isSuperAdmin: true,
+        isAdmin: true,
         password: await bcrypt.hash('admin123', 10),
       });
     }

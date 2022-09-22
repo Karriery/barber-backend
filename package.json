@@ -31,6 +31,7 @@
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "generate-api-key": "^1.0.1",
     "mongoose": "^6.6.1",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",

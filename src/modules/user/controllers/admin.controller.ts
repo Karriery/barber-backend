@@ -25,46 +25,37 @@ import { AdminService } from '../services/admin.service';
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
-  @Roles(Role.Admin, Role.SuperAdmin)
+  @Roles(Role.Admin)
   @Get('/current')
   current(@User() user) {
     return this.adminService.current(user.email);
   }
 
-  @Roles(Role.Admin, Role.SuperAdmin)
+  @Roles(Role.Admin)
   @Patch('/current')
   updateProfile(@User() user, @Body() updateAdminDto: UpdateAdminDto) {
     return this.adminService.updateProfile(user.email, updateAdminDto);
   }
 
-  @Roles(Role.Admin, Role.SuperAdmin)
+  @Roles(Role.Admin)
   @Get()
   findAll(@Query() filter: FilterAdminDto, @User('email') email) {
     return this.adminService.findAll(filter, email);
   }
 
-  @Roles(Role.Admin, Role.SuperAdmin)
+  @Roles(Role.Admin)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.adminService.findOne(id);
   }
 
-  @Roles(Role.SuperAdmin)
+  @Roles(Role.Admin)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
     return this.adminService.update(+id, updateAdminDto);
   }
 
-  @Roles(Role.SuperAdmin)
-  @Patch(':id/role')
-  changeAdminPrivileges(
-    @Param('id') id: string,
-    @Body() privileges: ChangePrivileges,
-  ) {
-    return this.adminService.changeAdminPrivileges(id, privileges);
-  }
-
-  @Roles(Role.SuperAdmin)
+  @Roles(Role.Admin)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.adminService.remove(id);
