@@ -13,7 +13,6 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/modules/auth/decorators/current-user.decorator';
 import { Role, Roles } from 'src/modules/auth/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
-import { ChangePrivileges } from '../dto/change-privileges.dto';
 import { FilterAdminDto } from '../dto/filter.dto';
 import { UpdateAdminDto } from '../dto/update-admin.dto';
 import { AdminService } from '../services/admin.service';
