@@ -1,0 +1,34 @@
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateCutDto } from '../dto/create-cut.dto';
+import { UpdateCutDto } from '../dto/update-cut.dto';
+import { Cut, CutDocument } from '../entities/cut.entity';
+
+@Injectable()
+export class CutService {
+  constructor(
+    @InjectModel(Cut.name)
+    private cutRepository: Model<CutDocument>,
+  ) {}
+
+  create(createCutDto: CreateCutDto) {
+    return this.cutRepository.create(createCutDto);
+  }
+
+  findAll() {
+    return this.cutRepository.find();
+  }
+
+  findOne(id: string) {
+    return this.cutRepository.findById(id);
+  }
+
+  update(id: string, updateCutDto: UpdateCutDto) {
+    return this.cutRepository.findByIdAndUpdate(id, updateCutDto);
+  }
+
+  remove(id: string) {
+    return this.cutRepository.findByIdAndDelete(id);
+  }
+}
