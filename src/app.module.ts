@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { CutModule } from './modules/cut/cut.module';
+import { PaymentModule } from './modules/payment/payment.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CutModule } from './modules/cut/cut.module';
       dest: '../uploads',
     }),
     CutModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
