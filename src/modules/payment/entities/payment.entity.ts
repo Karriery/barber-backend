@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import mongoose from 'mongoose';
+import { Cut } from 'src/modules/cut/entities/cut.entity';
+import { User } from 'src/modules/user/entities/user.entity';
 
 @Schema()
 export class Payment {
@@ -8,16 +11,12 @@ export class Payment {
   _id: string;
 
   @ApiProperty()
-  @Prop()
-  name: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: () => User })
+  user: User;
 
   @ApiProperty()
-  @Prop()
-  image: string;
-
-  @ApiProperty()
-  @Prop()
-  price: number;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: () => Cut })
+  cut: Cut;
 }
 
 export const PaymentSchema = SchemaFactory.createForClass(Payment);
