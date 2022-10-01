@@ -25,6 +25,10 @@ export class GlobalUser {
   @Prop({ default: false })
   isAdmin: boolean;
 
+  createdAt: Date;
+
+  updatedAt: Date;
+
   async checkPassword(password) {
     return await bcrypt.compare(password, this.password);
   }

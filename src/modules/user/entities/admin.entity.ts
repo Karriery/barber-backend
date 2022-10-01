@@ -2,7 +2,7 @@ import { GlobalUser } from './globalUser.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Admin extends GlobalUser {
   @ApiProperty()
   @Prop()

@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'src/modules/user/entities/user.entity';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Cut {
   @ApiProperty()
   @Prop()
@@ -19,6 +18,10 @@ export class Cut {
   @ApiProperty()
   @Prop()
   price: number;
+
+  createdAt: Date;
+
+  updatedAt: Date;
 }
 
 export const CutSchema = SchemaFactory.createForClass(Cut);

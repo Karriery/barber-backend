@@ -4,7 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Payment } from 'src/modules/payment/entities/payment.entity';
 import mongoose from 'mongoose';
 
-@Schema()
+@Schema({ timestamps: true })
 export class User extends GlobalUser {
   @ApiProperty()
   @Prop()

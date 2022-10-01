@@ -9,7 +9,7 @@ export enum PaymentMethod {
   CC = 'CC',
 }
 
-@Schema()
+@Schema({ timestamps: true })
 export class Payment {
   @ApiProperty()
   @Prop()
@@ -24,8 +24,8 @@ export class Payment {
   cuts: Cut;
 
   @ApiProperty()
-  @Prop({ default: PaymentMethod.CASH })
-  method: PaymentMethod;
+  @Prop({ default: PaymentMethod.CASH, enum: PaymentMethod })
+  method: string;
 
   @ApiProperty()
   @Prop({ nullable: true })
@@ -42,6 +42,8 @@ export class Payment {
   @ApiProperty()
   @Prop({ default: 0 })
   cost: number;
+
+  createdAt: Date;
 }
 
 export const PaymentSchema = SchemaFactory.createForClass(Payment);
