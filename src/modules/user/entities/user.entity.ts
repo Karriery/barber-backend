@@ -12,6 +12,26 @@ export class User extends GlobalUser {
 
   @ApiProperty()
   @Prop()
+  firstName: string;
+
+  @ApiProperty()
+  @Prop()
+  lastName: string;
+
+  @ApiProperty()
+  @Prop()
+  gender: string;
+
+  @ApiProperty()
+  @Prop()
+  age: number;
+
+  @ApiProperty()
+  @Prop()
+  legalId: string;
+
+  @ApiProperty()
+  @Prop()
   fingerPrint: string;
 
   @ApiProperty()

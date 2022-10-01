@@ -7,6 +7,7 @@ import { Cut, CutSchema } from './entities/cut.entity';
 @Module({
   imports: [MongooseModule.forFeature([{ name: Cut.name, schema: CutSchema }])],
   controllers: [CutController],
+  exports: [CutService],
   providers: [CutService],
 })
 export class CutModule {}

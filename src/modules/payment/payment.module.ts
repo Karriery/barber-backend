@@ -9,6 +9,7 @@ import { Payment, PaymentSchema } from './entities/payment.entity';
     MongooseModule.forFeature([{ name: Payment.name, schema: PaymentSchema }]),
   ],
   controllers: [PaymentController],
+  exports: [PaymentService],
   providers: [PaymentService],
 })
 export class PaymentModule {}

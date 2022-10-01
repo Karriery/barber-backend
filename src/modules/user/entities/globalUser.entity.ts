@@ -7,18 +7,6 @@ import { Prop, Schema } from '@nestjs/mongoose';
 export class GlobalUser {
   @ApiProperty()
   @Prop()
-  firstName: string;
-
-  @ApiProperty()
-  @Prop()
-  lastName: string;
-
-  @ApiProperty()
-  @Prop()
-  gender: string;
-
-  @ApiProperty()
-  @Prop()
   email: string;
 
   @Prop()
