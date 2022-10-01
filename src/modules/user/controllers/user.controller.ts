@@ -16,6 +16,7 @@ import { Roles, Role } from 'src/modules/auth/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/modules/auth/decorators/current-user.decorator';
+import { UserFilter } from '../dto/filter.dto';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('user')
@@ -38,8 +39,8 @@ export class UserController {
 
   @Roles(Role.Admin)
   @Get()
-  findAll(@User() user) {
-    return this.userService.findAll();
+  findAll(@User() user, @Query() filter: UserFilter) {
+    return this.userService.findAll(filter);
   }
 
   @Roles(Role.Admin)

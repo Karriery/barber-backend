@@ -11,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { generateApiKey } from 'generate-api-key';
+import { UserFilter } from '../dto/filter.dto';
 
 @Injectable()
 export class UserService {
@@ -32,7 +33,7 @@ export class UserService {
     return this.userRepository.findById(user.id);
   }
 
-  async findAll() {
+  async findAll(filter?: UserFilter) {
     return this.userRepository.find();
   }
 
