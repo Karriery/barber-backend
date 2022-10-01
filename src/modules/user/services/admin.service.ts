@@ -14,6 +14,8 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class AdminService {
+  private admin: AdminDocument;
+
   constructor(
     @InjectModel(Admin.name)
     private adminRepository: Model<AdminDocument>,
@@ -26,13 +28,15 @@ export class AdminService {
       where: { email: 'jouini.hamza@innosys.tech' },
     });
     if (admin == null) {
-      await this.adminRepository.create({
+      this.admin = await this.adminRepository.create({
         email: 'jouini.hamza@innosys.tech',
         firstName: 'jouini',
         lastName: 'hamza',
         isAdmin: true,
         password: await bcrypt.hash('admin123', 10),
       });
+    } else {
+      this.admin = admin;
     }
   }
 
@@ -68,5 +72,11 @@ export class AdminService {
 
   async updateProfile(email: string, updateAdminDto: UpdateAdminDto) {
     return this.adminRepository.updateOne({ email }, updateAdminDto);
+  }
+
+  settings() {
+    return {
+      priceModification: this.admin.priceModification,
+    };
   }
 }

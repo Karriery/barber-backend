@@ -10,9 +10,9 @@ import {
 } from '@nestjs/common';
 import { PaymentService } from '../services/payment.service';
 import { CreatePaymentDto } from '../dto/create-payment.dto';
-import { UpdatePaymentDto } from '../dto/update-payment.dto';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
+import { User } from 'src/modules/auth/decorators/current-user.decorator';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('payment')
@@ -22,8 +22,8 @@ export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Post()
-  create(@Body() createPaymentDto: CreatePaymentDto) {
-    return this.paymentService.create(createPaymentDto);
+  create(@Body() createPaymentDto: CreatePaymentDto, @User() user) {
+    return this.paymentService.create(createPaymentDto, user.id);
   }
 
   @Get()
@@ -34,15 +34,5 @@ export class PaymentController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.paymentService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto) {
-    return this.paymentService.update(id, updatePaymentDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.paymentService.remove(id);
   }
 }

@@ -7,6 +7,10 @@ export class Admin extends GlobalUser {
   @ApiProperty()
   @Prop()
   _id: string;
+
+  @ApiProperty()
+  @Prop({ default: 0 })
+  priceModification: number;
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);
