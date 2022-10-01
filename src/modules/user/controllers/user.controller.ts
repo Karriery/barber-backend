@@ -15,7 +15,6 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { Roles, Role } from 'src/modules/auth/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { FilterUserDto } from '../dto/filter.dto';
 import { User } from 'src/modules/auth/decorators/current-user.decorator';
 
 @UseGuards(JwtAuthGuard)
@@ -39,11 +38,8 @@ export class UserController {
 
   @Roles(Role.Admin)
   @Get()
-  findAll(@Query() filter: FilterUserDto, @User() user) {
-    return this.userService.findAll(
-      filter,
-      user.role == Role.SuperAdmin ? null : user.email,
-    );
+  findAll(@User() user) {
+    return this.userService.findAll();
   }
 
   @Roles(Role.Admin)

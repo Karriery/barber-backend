@@ -7,8 +7,6 @@ import {
 import { UpdateAdminDto } from '../dto/update-admin.dto';
 import { Admin, AdminDocument } from '../entities/admin.entity';
 import * as bcrypt from 'bcrypt';
-import { ChangePrivileges } from '../dto/change-privileges.dto';
-import { FilterAdminDto } from '../dto/filter.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -44,7 +42,7 @@ export class AdminService {
     return await this.findByEmail(email);
   }
 
-  findAll(filter: FilterAdminDto, email) {
+  findAll() {
     return this.adminRepository.find();
   }
 
@@ -64,10 +62,6 @@ export class AdminService {
     return this.adminRepository.findOne({
       email,
     });
-  }
-
-  changeAdminPrivileges(id: string, privileges: ChangePrivileges) {
-    return this.adminRepository.findByIdAndUpdate(id, privileges);
   }
 
   async updateProfile(email: string, updateAdminDto: UpdateAdminDto) {

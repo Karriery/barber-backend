@@ -8,7 +8,6 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User, UserDocument } from '../entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { FilterUserDto } from '../dto/filter.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { generateApiKey } from 'generate-api-key';
@@ -33,7 +32,7 @@ export class UserService {
     return this.userRepository.findById(user.id);
   }
 
-  async findAll(filter: FilterUserDto, email = null) {
+  async findAll() {
     return this.userRepository.find();
   }
 
