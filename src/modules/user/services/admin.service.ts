@@ -28,8 +28,6 @@ export class AdminService {
     if (admin == null) {
       this.admin = await this.adminRepository.create({
         email: 'jouini.hamza@innosys.tech',
-        firstName: 'jouini',
-        lastName: 'hamza',
         isAdmin: true,
         password: await bcrypt.hash('admin123', 10),
       });

@@ -1,9 +1,16 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { AdminDocument } from 'src/modules/user/entities/admin.entity';
+import { UserDocument } from 'src/modules/user/entities/user.entity';
 import { AdminService } from 'src/modules/user/services/admin.service';
 import { UserService } from 'src/modules/user/services/user.service';
 import { Role } from '../decorators/roles.decorator';
 import { BiometricType } from '../strategies/local.strategy';
+import * as bcrypt from 'bcrypt';
+
+function checkBiometricOrKey(key, user: UserDocument) {
+  return key === user.apiKey || key === user.faceId || key === user.fingerPrint;
+}
 
 @Injectable()
 export class AuthService {
@@ -15,23 +22,13 @@ export class AuthService {
 
   async validateAdmin(email: string, password: string): Promise<any> {
     const user = await this.adminService.findByEmail(email);
-    if (user) {
-      const isMatch = await user.checkPassword(password);
-      if (isMatch) {
-        const { password, ...result } = user;
-        return result;
-      }
-      return null;
-    }
-    return null;
-  }
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userService.findByEmail(email);
     if (user) {
-      const isMatch = await user.checkPassword(password);
+      console.log(user, user.password);
+
+      const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
-        const { password, ...result } = user;
+        const { password, ...result } = user.toJSON();
         return result;
       }
       return null;
@@ -42,7 +39,7 @@ export class AuthService {
   async validateUserBiometric(email: string, key: string) {
     const user = await this.userService.findByEmail(email);
     if (user) {
-      const isMatch = await user.checkBiometricOrKey(key);
+      const isMatch = checkBiometricOrKey(key, user);
       if (isMatch) {
         const { faceId, apiKey, fingerPrint, ...result } = user;
         return result;
@@ -52,9 +49,10 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    const role = user.isAdmin === true ? Role.Admin : Role.User;
-    const payload = { email: user.email, role, id: user.id };
+  async login(user: AdminDocument | UserDocument) {
+    //@ts-ignore
+    const role = user.email ? Role.Admin : Role.User;
+    const payload = { role, id: user._id };
     return {
       access_token: this.jwtService.sign(payload, {
         secret: process.env.JWT_SECRET,

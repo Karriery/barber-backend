@@ -1,13 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { GlobalUser } from './globalUser.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Payment } from 'src/modules/payment/entities/payment.entity';
 import mongoose from 'mongoose';
+import { Exclude } from 'class-transformer';
 
 @Schema({ timestamps: true })
-export class User extends GlobalUser {
+export class User {
   @ApiProperty()
-  @Prop()
   _id: string;
 
   @ApiProperty()
@@ -48,11 +47,17 @@ export class User extends GlobalUser {
   })
   payments: Payment[];
 
-  async checkBiometricOrKey(key) {
-    return (
-      key === this.apiKey || key === this.faceId || key === this.fingerPrint
-    );
-  }
+  @ApiProperty()
+  @Prop()
+  phone: string;
+
+  @ApiProperty()
+  @Prop()
+  connections: number;
+
+  createdAt: Date;
+
+  updatedAt: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

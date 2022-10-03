@@ -34,7 +34,16 @@ export class UserService {
   }
 
   async findAll(filter?: UserFilter) {
-    return this.userRepository.find();
+    return this.userRepository
+      .find({
+        firstName: new RegExp(filter.firstname, 'gi'),
+        lastName: new RegExp(filter.lastname, 'gi'),
+        email: new RegExp(filter.email, 'gi'),
+        legalId: new RegExp(filter.legalId, 'gi'),
+      })
+      .sort({ createdAt: filter.asc ? 1 : -1 })
+      .skip(filter.cursor)
+      .limit(filter.limit);
   }
 
   findByEmail(email: string) {

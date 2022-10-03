@@ -31,24 +31,6 @@ export class LocalAdminStrategy extends PassportStrategy(
 }
 
 @Injectable()
-export class LocalUserStrategy extends PassportStrategy(Strategy, 'localUser') {
-  constructor(private authService: AuthService) {
-    super({
-      usernameField: 'email',
-      passwordField: 'password',
-    });
-  }
-
-  async validate(email: string, password: string): Promise<any> {
-    const user = await this.authService.validateUser(email, password);
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-    return user;
-  }
-}
-
-@Injectable()
 export class BiometricUserStrategy extends PassportStrategy(
   Strategy,
   'BiometricUser',

@@ -4,7 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 @Schema({ timestamps: true })
 export class Cut {
   @ApiProperty()
-  @Prop()
   _id: string;
 
   @ApiProperty()

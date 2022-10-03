@@ -12,7 +12,6 @@ export enum PaymentMethod {
 @Schema({ timestamps: true })
 export class Payment {
   @ApiProperty()
-  @Prop()
   _id: string;
 
   @ApiProperty()

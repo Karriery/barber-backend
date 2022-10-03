@@ -10,8 +10,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: User.name, schema: AdminSchema },
-      { name: Admin.name, schema: UserSchema },
+      { name: User.name, schema: UserSchema },
+      { name: Admin.name, schema: AdminSchema },
     ]),
   ],
   controllers: [UserController, AdminController],
