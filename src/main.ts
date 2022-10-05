@@ -11,8 +11,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalPipes(new ValidationPipe());
   const config = new DocumentBuilder()
-    .setTitle('ROMAIN Documentation')
-    .setDescription('The ROMAIN API description')
+    .setTitle('Hajem Documentation')
+    .setDescription('The Hajem API description')
     .setVersion('1.0')
     .addTag('api')
     .build();
