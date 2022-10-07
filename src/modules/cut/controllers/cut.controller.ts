@@ -33,7 +33,7 @@ export class CutController {
     @Body() createCutDto: CreateCutDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    createCutDto.image = file.filename;
+    createCutDto.image = file?.filename;
     return this.cutService.create(createCutDto);
   }
 
@@ -49,7 +49,14 @@ export class CutController {
 
   @Roles(Role.Admin)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCutDto: UpdateCutDto) {
+  @UseInterceptors(FileInterceptor('image', { storage }))
+  update(
+    @Param('id') id: string,
+    @Body() updateCutDto: UpdateCutDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (file) updateCutDto.image = file?.filename;
+
     return this.cutService.update(id, updateCutDto);
   }
 

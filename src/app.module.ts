@@ -8,6 +8,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { CutModule } from './modules/cut/cut.module';
 import { PaymentModule } from './modules/payment/payment.module';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import { PaymentModule } from './modules/payment/payment.module';
       `mongodb+srv://root:root@cluster0.vahx0yk.mongodb.net/${process.env.DB_NAME}`,
     ),
     MulterModule.register({
-      dest: '../uploads',
+      dest: '../upload',
     }),
     CutModule,
     PaymentModule,

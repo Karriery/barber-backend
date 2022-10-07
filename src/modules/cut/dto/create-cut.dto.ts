@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsNumberString,
+  isNumberString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateCutDto {
   @IsString()
@@ -7,10 +14,10 @@ export class CreateCutDto {
   name: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  //@IsNotEmpty()
   image;
 
   @ApiProperty()
-  @IsNumber()
+  @IsNumberString()
   price: number;
 }

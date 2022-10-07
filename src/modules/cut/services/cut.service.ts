@@ -13,6 +13,7 @@ export class CutService {
   ) {}
 
   create(createCutDto: CreateCutDto) {
+    createCutDto.price = createCutDto.price * 1;
     return this.cutRepository.create(createCutDto);
   }
 
@@ -25,7 +26,9 @@ export class CutService {
   }
 
   update(id: string, updateCutDto: UpdateCutDto) {
-    return this.cutRepository.findByIdAndUpdate(id, updateCutDto);
+    return this.cutRepository.findByIdAndUpdate(id, updateCutDto, {
+      new: true,
+    });
   }
 
   remove(id: string) {
