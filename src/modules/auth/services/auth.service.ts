@@ -22,10 +22,7 @@ export class AuthService {
 
   async validateAdmin(email: string, password: string): Promise<any> {
     const user = await this.adminService.findByEmail(email);
-
     if (user) {
-      console.log(user, user.password);
-
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
         const { password, ...result } = user.toJSON();
@@ -37,14 +34,11 @@ export class AuthService {
   }
 
   async validateUserBiometric(email: string, key: string) {
-    const user = await this.userService.findByEmail(email);
+    console.log(email, key);
+    const user = await this.userService.findByKey(key);
     if (user) {
-      const isMatch = checkBiometricOrKey(key, user);
-      if (isMatch) {
-        const { faceId, apiKey, fingerPrint, ...result } = user;
-        return result;
-      }
-      return null;
+      const { faceId, apiKey, fingerPrint, ...result } = user;
+      return result;
     }
     return null;
   }

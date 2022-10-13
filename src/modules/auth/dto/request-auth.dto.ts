@@ -10,8 +10,5 @@ export class LoginRequest {
 
 export class BiometricLoginRequest {
   @ApiProperty()
-  email: string;
-
-  @ApiProperty()
   key: string;
 }

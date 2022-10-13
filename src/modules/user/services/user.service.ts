@@ -64,7 +64,15 @@ export class UserService {
     return this.userRepository.findByIdAndUpdate(id, updateUserDto);
   }
 
-  async remove(id: number) {
-    return this.userRepository.remove(id);
+  async remove(id: string) {
+    return this.userRepository.deleteOne({ _id: id });
+  }
+
+  findByKey(key: string) {
+    console.log(key);
+
+    return this.userRepository.findOne({
+      $or: [{ apiKey: key }, { faceId: key }, { fingerPrint: key }],
+    });
   }
 }
