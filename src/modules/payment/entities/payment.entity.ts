@@ -20,7 +20,7 @@ export class Payment {
 
   @ApiProperty()
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: () => Cut }] })
-  cuts: Cut;
+  cuts: Cut[];
 
   @ApiProperty()
   @Prop({ default: PaymentMethod.CASH, enum: PaymentMethod })

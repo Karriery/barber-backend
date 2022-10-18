@@ -13,6 +13,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { generateApiKey } from 'generate-api-key';
 import { UserFilter } from '../dto/filter.dto';
 
+function randomCode() {
+  return (Math.random() * 10 + '').replace('.', '').slice(0, 4);
+}
+
 @Injectable()
 export class UserService {
   constructor(
@@ -29,8 +33,17 @@ export class UserService {
     const user = await this.userRepository.create({
       ...createUserDto,
       apiKey: generateApiKey({ method: 'base32' }),
+      pin: await this.generatePin(),
     });
     return this.userRepository.findById(user.id);
+  }
+
+  async generatePin() {
+    let code = randomCode();
+    while ((await this.userRepository.findOne({ pin: code })) != null) {
+      code = randomCode();
+    }
+    return code;
   }
 
   async findAll(filter?: UserFilter) {

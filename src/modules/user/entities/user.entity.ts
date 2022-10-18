@@ -30,12 +30,8 @@ export class User {
   legalId: string;
 
   @ApiProperty()
-  @Prop()
-  fingerPrint: string;
-
-  @ApiProperty()
-  @Prop()
-  faceId: string;
+  @Prop({ unique: true })
+  pin: string;
 
   @ApiProperty()
   @Prop()

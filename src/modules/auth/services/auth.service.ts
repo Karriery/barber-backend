@@ -9,7 +9,7 @@ import { BiometricType } from '../strategies/local.strategy';
 import * as bcrypt from 'bcrypt';
 
 function checkBiometricOrKey(key, user: UserDocument) {
-  return key === user.apiKey || key === user.faceId || key === user.fingerPrint;
+  return key === user.apiKey || key === user.pin;
 }
 
 @Injectable()
@@ -37,7 +37,7 @@ export class AuthService {
     console.log(email, key);
     const user = await this.userService.findByKey(key);
     if (user) {
-      const { faceId, apiKey, fingerPrint, ...result } = user;
+      const { apiKey, pin, ...result } = user;
       return result;
     }
     return null;
