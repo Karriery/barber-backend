@@ -82,10 +82,8 @@ export class UserService {
   }
 
   findByKey(key: string) {
-    console.log(key);
-
     return this.userRepository.findOne({
-      $or: [{ apiKey: key }, { faceId: key }, { fingerPrint: key }],
+      $or: [{ apiKey: key }, { pin: key }],
     });
   }
 }

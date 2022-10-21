@@ -40,6 +40,10 @@ export class Payment {
 
   @ApiProperty()
   @Prop({ default: 0 })
+  manualProfit: number;
+
+  @ApiProperty()
+  @Prop({ default: 0 })
   cost: number;
 
   createdAt: Date;

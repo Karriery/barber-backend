@@ -34,7 +34,6 @@ export class AuthService {
   }
 
   async validateUserBiometric(email: string, key: string) {
-    console.log(email, key);
     const user = await this.userService.findByKey(key);
     if (user) {
       const { apiKey, pin, ...result } = user;

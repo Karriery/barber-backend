@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { PaymentMethod } from '../entities/payment.entity';
-import { IsArray, IsOptional } from 'class-validator';
+import { IsArray, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreatePaymentDto {
   @IsArray()
@@ -22,4 +22,8 @@ export class CreatePaymentDto {
   @IsOptional()
   @ApiProperty()
   cost: number;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  manualProfit: number;
 }

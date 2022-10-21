@@ -13,6 +13,7 @@ import { CreatePaymentDto } from '../dto/create-payment.dto';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { User } from 'src/modules/auth/decorators/current-user.decorator';
+import { PaymentFilter } from '../dto/filter.dto';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('payment')
@@ -27,8 +28,8 @@ export class PaymentController {
   }
 
   @Get()
-  findAll() {
-    return this.paymentService.findAll();
+  findAll(@Body() filter?: PaymentFilter) {
+    return this.paymentService.findAll(filter);
   }
 
   @Get(':id')

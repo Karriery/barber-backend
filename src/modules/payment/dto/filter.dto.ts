@@ -1,11 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, IsNumber, IsBoolean } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  IsNumber,
+  IsBoolean,
+  IsDateString,
+} from 'class-validator';
 
 export class PaymentFilter {
   @IsOptional()
   @IsNumber()
   @ApiProperty({ required: false, default: 0 })
   limit: number;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ required: false })
+  userId: string;
+
+  @IsOptional()
+  @IsDateString()
+  @ApiProperty({ required: false })
+  date: string;
 
   @IsOptional()
   @IsNumber()
