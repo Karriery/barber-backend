@@ -20,6 +20,8 @@ export class AuthController {
     return this.authService.login(user);
   }
 
+  //comment
+
   @UseGuards(BiometricUserAuthGuard)
   @Post('user/biometric')
   biometricLoginLocalUser(
