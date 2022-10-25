@@ -22,6 +22,6 @@ export class AppService {
   }
 
   async totalSalaries() {
-    return this.paymentService.getTotalSalaries();
+    return this.userService.getTotalSalaries();
   }
 }

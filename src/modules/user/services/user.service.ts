@@ -8,7 +8,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User, UserDocument } from '../entities/user.entity';
 import * as bcrypt from 'bcrypt';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { generateApiKey } from 'generate-api-key';
 import { UserFilter } from '../dto/filter.dto';
@@ -85,5 +85,25 @@ export class UserService {
     return this.userRepository.findOne({
       $or: [{ apiKey: key }, { pin: key }],
     });
+  }
+
+  getTotalSalaries() {
+    return this.userRepository.aggregate([
+      {
+        $addFields: {
+          salaries: {
+            $sum: '$salary',
+          },
+        },
+      },
+      { $project: { lookupdata: 0 } },
+      {
+        $group: {
+          _id: new mongoose.Types.ObjectId(),
+          totalSalaries: { $sum: '$salaries' },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
   }
 }

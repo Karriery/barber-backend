@@ -24,6 +24,7 @@ export class PaymentController {
 
   @Post()
   create(@Body() createPaymentDto: CreatePaymentDto, @User() user) {
+    console.log(createPaymentDto);
     return this.paymentService.create(createPaymentDto, user.id);
   }
 
