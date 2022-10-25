@@ -97,4 +97,32 @@ export class PaymentService {
       { $sort: { _id: 1 } },
     ]);
   }
+
+  getTotalSalaries() {
+    return this.paymentRepository.aggregate([
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'users',
+          foreignField: '_id',
+          as: 'lookupdata',
+        },
+      },
+      {
+        $addFields: {
+          salaries: {
+            $sum: '$lookupdata.salary',
+          },
+        },
+      },
+      { $project: { lookupdata: 0 } },
+      {
+        $group: {
+          _id: new mongoose.Types.ObjectId(),
+          totalSalaries: { $sum: '$salaries' },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+  }
 }

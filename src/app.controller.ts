@@ -9,4 +9,8 @@ export class AppController {
   stats(@Query() filter?: Filter) {
     return this.appService.statistics(filter);
   }
+  @Get('/totalSalaries')
+  salaries() {
+    return this.appService.totalSalaries();
+  }
 }

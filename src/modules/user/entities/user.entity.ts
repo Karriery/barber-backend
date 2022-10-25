@@ -27,6 +27,10 @@ export class User {
 
   @ApiProperty()
   @Prop()
+  salary: number;
+
+  @ApiProperty()
+  @Prop()
   legalId: string;
 
   @ApiProperty()

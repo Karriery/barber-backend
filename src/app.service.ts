@@ -20,4 +20,8 @@ export class AppService {
   async statistics(filter?: Filter) {
     return this.paymentService.workStatistics(filter);
   }
+
+  async totalSalaries() {
+    return this.paymentService.getTotalSalaries();
+  }
 }
