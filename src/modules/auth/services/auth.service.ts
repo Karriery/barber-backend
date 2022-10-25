@@ -36,7 +36,7 @@ export class AuthService {
   async validateUserBiometric(email: string, key: string) {
     const user = await this.userService.findByKey(key);
     if (user) {
-      const { apiKey, pin, ...result } = user;
+      const { apiKey, pin, ...result } = user.toJSON();
       return result;
     }
     return null;
@@ -45,7 +45,8 @@ export class AuthService {
   async login(user: AdminDocument | UserDocument) {
     //@ts-ignore
     const role = user.email ? Role.Admin : Role.User;
-    const payload = { role, id: user._id };
+    //@ts-ignore
+    const payload = { role, id: user._id, email: user.email || 'unknown' };
     return {
       access_token: this.jwtService.sign(payload, {
         secret: process.env.JWT_SECRET,

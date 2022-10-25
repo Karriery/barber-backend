@@ -23,18 +23,19 @@ export class PaymentService {
       throw new BadRequestException('No cuts! manualProfit should be 0');
     }
     const settings = await this.adminService.settings();
-    return this.paymentRepository.create({
+    const payment = await this.paymentRepository.create({
       ...createPaymentDto,
       user: id,
       priceModification: settings.priceModification,
     });
+    return this.paymentRepository.findById(payment._id);
   }
 
   findAll(filter?: PaymentFilter) {
     return this.paymentRepository
       .find({
         user: filter.userId || {},
-        createdAt: filter.date ? new Date(filter.date) : {},
+        //createdAt: filter.date ? new Date(filter.date) : {},
       })
       .populate(['user', 'cuts'])
       .sort({ createdAt: filter.asc ? 1 : -1 })
