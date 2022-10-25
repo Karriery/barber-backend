@@ -34,7 +34,7 @@ export class PaymentService {
   findAll(filter?: PaymentFilter) {
     return this.paymentRepository
       .find({
-        user: filter.userId || {},
+        //user: filter.userId || {},
         //createdAt: filter.date ? new Date(filter.date) : {},
       })
       .populate(['user', 'cuts'])
