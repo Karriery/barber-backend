@@ -44,6 +44,10 @@ export class CreateUserDto {
   @IsNumber()
   age: number;
 
+  @ApiProperty()
+  @IsNumber()
+  salary: number;
+
   @IsString()
   @ApiProperty()
   legalId: string;
