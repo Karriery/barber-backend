@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Filter } from 'src/app.service';
 import { AdminService } from 'src/modules/user/services/admin.service';
 import { CreatePaymentDto } from '../dto/create-payment.dto';
@@ -78,7 +78,9 @@ export class PaymentService {
       },
       { $project: { lookupdata: 0 } },
       {
-        $match: filter.userId ? { user: filter.userId } : {},
+        $match: filter.userId
+          ? { user: new mongoose.Types.ObjectId(filter.userId) }
+          : {},
       },
       {
         $group: {
