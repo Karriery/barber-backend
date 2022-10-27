@@ -106,4 +106,42 @@ export class UserService {
       { $sort: { _id: 1 } },
     ]);
   }
+
+  userStats() {
+    return this.userRepository.aggregate([
+      {
+        $lookup: {
+          from: 'payments',
+          localField: 'payments',
+          foreignField: '_id',
+          as: 'lookupPayments',
+        },
+      },
+      {
+        $lookup: {
+          from: 'cuts',
+          localField: 'lookupPayments.cuts',
+          foreignField: '_id',
+          as: 'lookupCut',
+        },
+      },
+      {
+        $addFields: {
+          orderPrice: {
+            $sum: '$lookupCut.price',
+          },
+          totalCuts: {
+            $size: '$lookupCut',
+          },
+        },
+      },
+      { $project: { lookupCut: 0, lookupPayments: 0 } },
+      {
+        $group: {
+          _id: {},
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+  }
 }

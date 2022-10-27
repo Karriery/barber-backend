@@ -18,10 +18,13 @@ export class AppService {
   ) {}
 
   async statistics(filter?: Filter) {
-    return this.paymentService.workStatistics(filter);
-  }
-
-  async totalSalaries() {
-    return this.userService.getTotalSalaries();
+    const stat = await Promise.all([
+      this.paymentService.workStatistics(filter),
+      this.userService.getTotalSalaries(),
+    ]);
+    return {
+      workStatistics: stat[0],
+      totalSalaries: stat[1],
+    };
   }
 }

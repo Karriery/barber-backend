@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { Filter } from 'src/app.service';
 import { AdminService } from 'src/modules/user/services/admin.service';
+import { UserService } from 'src/modules/user/services/user.service';
 import { CreatePaymentDto } from '../dto/create-payment.dto';
 import { PaymentFilter } from '../dto/filter.dto';
 import { Payment, PaymentDocument } from '../entities/payment.entity';
@@ -13,9 +14,11 @@ export class PaymentService {
     @InjectModel(Payment.name)
     private paymentRepository: Model<PaymentDocument>,
     private adminService: AdminService,
+    private userService: UserService,
   ) {}
 
   async create(createPaymentDto: CreatePaymentDto, id) {
+    const user = await this.userService.findOne(id);
     if (
       createPaymentDto.cuts.length == 0 &&
       createPaymentDto.manualProfit > 0
@@ -28,6 +31,8 @@ export class PaymentService {
       user: id,
       priceModification: settings.priceModification,
     });
+    user.payments.push(payment);
+    await this.userService.updateRAW(user._id, user);
     return this.paymentRepository.findById(payment._id);
   }
 

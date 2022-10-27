@@ -44,6 +44,12 @@ export class UserController {
   }
 
   @Roles(Role.Admin)
+  @Get('statistics')
+  stats(@User() user, @Query() filter: UserFilter) {
+    return this.userService.userStats();
+  }
+
+  @Roles(Role.Admin)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
