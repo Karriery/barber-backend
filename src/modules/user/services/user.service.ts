@@ -150,7 +150,7 @@ export class UserService {
       },
       {
         $match: filter.userId
-          ? { user: new mongoose.Types.ObjectId(filter.userId) }
+          ? { _id: new mongoose.Types.ObjectId(filter.userId) }
           : {},
       },
       {
