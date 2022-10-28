@@ -17,6 +17,7 @@ import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/modules/auth/decorators/current-user.decorator';
 import { UserFilter } from '../dto/filter.dto';
+import { Filter } from 'src/app.service';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('user')
@@ -45,8 +46,8 @@ export class UserController {
 
   @Roles(Role.Admin)
   @Get('statistics')
-  stats(@User() user, @Query() filter: UserFilter) {
-    return this.userService.userStats();
+  stats(@User() user, @Query() filter: Filter) {
+    return this.userService.userStats(filter);
   }
 
   @Roles(Role.Admin)

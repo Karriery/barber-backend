@@ -26,7 +26,9 @@ export class User {
   age: number;
 
   @ApiProperty()
-  @Prop()
+  @Prop({
+    default: 0,
+  })
   salary: number;
 
   @ApiProperty()

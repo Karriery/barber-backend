@@ -12,6 +12,8 @@ import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { generateApiKey } from 'generate-api-key';
 import { UserFilter } from '../dto/filter.dto';
+import { Filter } from 'src/app.service';
+import * as moment from 'moment';
 
 function randomCode() {
   return (Math.random() * 10 + '').replace('.', '').slice(0, 4);
@@ -107,15 +109,49 @@ export class UserService {
     ]);
   }
 
-  userStats() {
+  userStats(filter: Filter = { period: 'DAY' }) {
+    let format = '%Y-%m-%d';
+    if (filter.period == 'YEAR') {
+      format = '%Y';
+    } else if (filter.period == 'MONTH') {
+      format = '%Y-%m';
+    }
     return this.userRepository.aggregate([
       {
         $lookup: {
           from: 'payments',
           localField: 'payments',
           foreignField: '_id',
+          let: { createdAt: 'createdAt' },
+          pipeline: [
+            {
+              $match:
+                filter.dateStart && filter.dateEnd
+                  ? {
+                      createdAt: {
+                        $gte: moment(filter.dateStart)
+                          .hours(1)
+                          .minutes(0)
+                          .seconds(0)
+                          .toDate(),
+                        $lt: moment(filter.dateEnd)
+                          .hours(1)
+                          .minutes(0)
+                          .seconds(0)
+                          .add(1, 'days')
+                          .toDate(),
+                      },
+                    }
+                  : {},
+            },
+          ],
           as: 'lookupPayments',
         },
+      },
+      {
+        $match: filter.userId
+          ? { user: new mongoose.Types.ObjectId(filter.userId) }
+          : {},
       },
       {
         $lookup: {
@@ -130,6 +166,9 @@ export class UserService {
           orderPrice: {
             $sum: '$lookupCut.price',
           },
+          costPrice: {
+            $sum: '$lookupPayments.cost',
+          },
           totalCuts: {
             $size: '$lookupCut',
           },
@@ -138,7 +177,12 @@ export class UserService {
       { $project: { lookupCut: 0, lookupPayments: 0 } },
       {
         $group: {
-          _id: {},
+          _id: '$_id',
+          // date: { },
+          salary: { $sum: '$salary' },
+          cost: { $sum: '$costPrice' },
+          profit: { $sum: '$orderPrice' },
+          cutsCount: { $sum: '$totalCuts' },
         },
       },
       { $sort: { _id: 1 } },

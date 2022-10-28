@@ -6,7 +6,8 @@ import { UserService } from './modules/user/services/user.service';
 export type Filter = {
   userId?: string;
   period?: 'YEAR' | 'MONTH' | 'DAY';
-  date?: Date;
+  dateStart?: Date;
+  dateEnd?: Date;
 };
 
 @Injectable()
@@ -23,8 +24,8 @@ export class AppService {
       this.userService.getTotalSalaries(),
     ]);
     return {
-      workStatistics: stat[0],
-      totalSalaries: stat[1],
+      workStatistics: stat[0][0],
+      totalSalaries: stat[1][0],
     };
   }
 }
