@@ -178,7 +178,7 @@ export class UserService {
       {
         $group: {
           _id: '$_id',
-          // date: { },
+          name: { $push: { $concat: ['$firstName', ' ', '$lastName'] } },
           salary: { $sum: { $multiply: ['$orderPrice', 0.5] } },
           cost: { $sum: '$costPrice' },
           profit: { $sum: '$orderPrice' },
