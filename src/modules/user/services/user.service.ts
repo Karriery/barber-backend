@@ -149,9 +149,7 @@ export class UserService {
         },
       },
       {
-        $match: filter.userId
-          ? { $_id: new mongoose.Types.ObjectId(filter.userId) }
-          : {},
+        $match: filter.userId ? { _id: filter.userId } : {},
       },
       {
         $lookup: {
