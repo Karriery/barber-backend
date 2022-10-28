@@ -179,7 +179,7 @@ export class UserService {
         $group: {
           _id: '$_id',
           // date: { },
-          salary: { $sum: '$salary' },
+          salary: { $sum: { $multiply: ['$orderPrice', 0.5] } },
           cost: { $sum: '$costPrice' },
           profit: { $sum: '$orderPrice' },
           cutsCount: { $sum: '$totalCuts' },
