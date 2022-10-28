@@ -150,7 +150,7 @@ export class UserService {
       },
       {
         $match: filter.userId
-          ? { _id: new mongoose.Types.ObjectId(filter.userId) }
+          ? { $_id: new mongoose.Types.ObjectId(filter.userId) }
           : {},
       },
       {
@@ -178,7 +178,7 @@ export class UserService {
       {
         $group: {
           _id: '$_id',
-          name: { $addToSet: { $concat: ['$firstName', ' ', '$lastName'] } },
+          name: { $first: { $concat: ['$firstName', ' ', '$lastName'] } },
           salary: { $sum: { $multiply: ['$orderPrice', 0.5] } },
           cost: { $sum: '$costPrice' },
           profit: { $sum: '$orderPrice' },
