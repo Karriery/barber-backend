@@ -116,6 +116,17 @@ export class UserService {
     } else if (filter.period == 'MONTH') {
       format = '%Y-%m';
     }
+    console.log(filter);
+    console.log({
+      $gte: moment(filter.dateStart).hours(1).minutes(0).seconds(0).toDate(),
+      $lt: moment(filter.dateEnd)
+        .hours(1)
+        .minutes(0)
+        .seconds(0)
+        .add(1, 'days')
+        .toDate(),
+    });
+
     return this.userRepository.aggregate([
       {
         $lookup: {
