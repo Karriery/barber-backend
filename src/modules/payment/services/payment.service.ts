@@ -37,9 +37,9 @@ export class PaymentService {
       priceModification: settings.priceModification,
     });
     user?.payments.push(payment);
-    user.salary = await this.calculateSalary(user._id);
-    await this.userService.updateRAW(user._id, user);
-    return this.paymentRepository.findById(payment._id);
+    user.salary = await this.calculateSalary(user.id);
+    await this.userService.updateRAW(user.id, user);
+    return this.paymentRepository.findById(payment.id);
   }
 
   findAll(filter?: PaymentFilter) {
