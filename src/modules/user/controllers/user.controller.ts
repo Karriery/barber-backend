@@ -44,7 +44,7 @@ export class UserController {
     return this.userService.findAll(filter);
   }
 
-  @Roles(Role.Admin)
+  @Roles(Role.Admin, Role.User)
   @Get('statistics')
   stats(@User() user, @Query() filter: Filter) {
     return this.userService.userStats(filter);
