@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import moment from 'moment';
+import * as moment from 'moment';
 import mongoose, { Model } from 'mongoose';
 import { Filter } from 'src/app.service';
 import { AdminService } from 'src/modules/user/services/admin.service';
