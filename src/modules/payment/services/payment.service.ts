@@ -23,6 +23,8 @@ export class PaymentService {
   ) {}
 
   async create(createPaymentDto: CreatePaymentDto, id) {
+    console.log(id);
+
     const user = await this.userService.findOne(id);
     if (
       createPaymentDto.cuts.length == 0 &&
