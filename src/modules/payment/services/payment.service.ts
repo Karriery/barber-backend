@@ -36,7 +36,7 @@ export class PaymentService {
       user: id,
       priceModification: settings.priceModification,
     });
-    user.payments.push(payment);
+    user?.payments.push(payment);
     user.salary = await this.calculateSalary(user._id);
     await this.userService.updateRAW(user._id, user);
     return this.paymentRepository.findById(payment._id);
