@@ -44,6 +44,12 @@ export class PaymentService {
     }
   }
 
+  createMany(createPaymentDto: CreatePaymentDto[], id) {
+    return Promise.all(
+      createPaymentDto.map((payment) => this.create(payment, id)),
+    );
+  }
+
   findAll(filter?: PaymentFilter) {
     return this.paymentRepository
       .find({

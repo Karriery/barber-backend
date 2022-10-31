@@ -26,7 +26,6 @@ export class PaymentController {
   @Roles(Role.User)
   @Post()
   create(@Body() createPaymentDto: CreatePaymentDto, @User() user) {
-    console.log(createPaymentDto);
     return this.paymentService.create(createPaymentDto, user.id);
   }
 
@@ -40,5 +39,11 @@ export class PaymentController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.paymentService.findOne(id);
+  }
+
+  @Roles(Role.Admin)
+  @Post('all')
+  updateAll(@Body() createPaymentDto: CreatePaymentDto[], @User() user) {
+    return this.paymentService.createMany(createPaymentDto, user.id);
   }
 }
