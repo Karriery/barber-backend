@@ -26,22 +26,25 @@ export class PaymentService {
     console.log(id);
 
     const user = await this.userService.findOne(id);
-    if (
-      createPaymentDto.cuts.length == 0 &&
-      createPaymentDto.manualProfit > 0
-    ) {
-      throw new BadRequestException('No cuts! manualProfit should be 0');
+    console.log(user);
+    if (user) {
+      if (
+        createPaymentDto.cuts.length == 0 &&
+        createPaymentDto.manualProfit > 0
+      ) {
+        throw new BadRequestException('No cuts! manualProfit should be 0');
+      }
+      const settings = await this.adminService.settings();
+      const payment = await this.paymentRepository.create({
+        ...createPaymentDto,
+        user: id,
+        priceModification: settings.priceModification,
+      });
+      user.payments.push(payment);
+      user.salary = await this.calculateSalary(user._id);
+      await this.userService.updateRAW(user._id, user);
+      return this.paymentRepository.findById(payment._id);
     }
-    const settings = await this.adminService.settings();
-    const payment = await this.paymentRepository.create({
-      ...createPaymentDto,
-      user: id,
-      priceModification: settings.priceModification,
-    });
-    user.payments.push(payment);
-    user.salary = await this.calculateSalary(user._id);
-    await this.userService.updateRAW(user._id, user);
-    return this.paymentRepository.findById(payment._id);
   }
 
   findAll(filter?: PaymentFilter) {
