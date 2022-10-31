@@ -8,7 +8,7 @@ import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Roles(Role.Admin, Role.SuperAdmin)
+  @Roles(Role.Admin, Role.SuperAdmin, Role.User)
   @Get('/statistics')
   stats(@Query() filter?: Filter) {
     return this.appService.statistics(filter);
