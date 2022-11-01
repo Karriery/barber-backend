@@ -119,7 +119,7 @@ export class PaymentService {
           cash: {
             $sum: {
               $cond: [
-                { $eq: [PaymentMethod.CASH, '$method'] },
+                { $in: [PaymentMethod.CASH, '$method'] },
                 '$manualProfit',
                 0,
               ],
