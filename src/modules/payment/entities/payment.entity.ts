@@ -23,8 +23,8 @@ export class Payment {
   cuts: Cut[];
 
   @ApiProperty()
-  @Prop({ enum: PaymentMethod })
-  method: string[];
+  @Prop({ default: [PaymentMethod.CASH], enum: PaymentMethod })
+  method: [];
 
   @ApiProperty()
   @Prop({ nullable: true })
