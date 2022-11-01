@@ -27,9 +27,16 @@ export class PaymentService {
     if (user) {
       if (
         createPaymentDto.cuts.length == 0 &&
-        createPaymentDto.manualProfit > 0
+        createPaymentDto.manualProfitCash > 0 &&
+        createPaymentDto.manualProfitCreditCard > 0
       ) {
         throw new BadRequestException('No cuts! manualProfit should be 0');
+      }
+      if (!createPaymentDto.method.includes(PaymentMethod.CASH)) {
+        createPaymentDto.manualProfitCash = 0;
+      }
+      if (!createPaymentDto.method.includes(PaymentMethod.CC)) {
+        createPaymentDto.manualProfitCreditCard = 0;
       }
       const settings = await this.adminService.settings();
       const payment = await this.paymentRepository.create({
@@ -40,7 +47,9 @@ export class PaymentService {
       user.payments.push(payment);
       user.salary = await this.calculateSalary(user._id);
       await this.userService.updateRAW(user._id, user);
-      return this.paymentRepository.findById(payment._id);
+      return this.paymentRepository
+        .findById(payment._id)
+        .populate(['user', 'cuts']);
     }
   }
 
@@ -116,23 +125,8 @@ export class PaymentService {
           totalCuts: {
             $size: '$lookupdata',
           },
-          cash: {
-            $sum: {
-              $cond: [
-                { $in: [PaymentMethod.CASH, '$method'] },
-                '$manualProfit',
-                0,
-              ],
-            },
-          },
-          cc: {
-            $sum: {
-              $cond: [
-                { $eq: [PaymentMethod.CC, '$method'] },
-                '$manualProfit',
-                0,
-              ],
-            },
+          profit: {
+            $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
           },
           orderNetPrice: {
             $subtract: ['$orderPrice', '$cost'],
@@ -154,11 +148,10 @@ export class PaymentService {
           _id: new mongoose.Types.ObjectId(),
           totalOrderProfit: { $sum: '$orderPrice' },
           totalOrderNetProfit: { $sum: '$orderNetPrice' },
-          totalManuelOrderValue: { $sum: '$manualProfit' },
+          totalManuelOrderValue: { $sum: '$profit' },
           totalHaircuts: { $sum: '$totalCuts' },
-          totalCost: { $sum: '$cost' },
-          totalCash: { $sum: '$cash' },
-          totalCC: { $sum: '$cc' },
+          totalCash: { $sum: '$manualProfitCash' },
+          totalCC: { $sum: '$manualProfitCreditCard' },
         },
       },
       { $sort: { _id: 1 } },

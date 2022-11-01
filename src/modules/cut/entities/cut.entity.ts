@@ -18,6 +18,10 @@ export class Cut {
   @Prop()
   price: number;
 
+  @ApiProperty()
+  @Prop()
+  tva: number;
+
   createdAt: Date;
 
   updatedAt: Date;

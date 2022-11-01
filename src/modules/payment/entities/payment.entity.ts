@@ -9,6 +9,11 @@ export enum PaymentMethod {
   CC = 'CC',
 }
 
+export enum WithdrawalReason {
+  PERSONAL_COST = 'PERSONAL_COST',
+  CUT_COST = 'CUT_COST',
+}
+
 @Schema({ timestamps: true })
 export class Payment {
   @ApiProperty()
@@ -40,11 +45,19 @@ export class Payment {
 
   @ApiProperty()
   @Prop({ default: 0 })
-  manualProfit: number;
+  manualProfitCash: number;
+
+  @ApiProperty()
+  @Prop({ default: 0 })
+  manualProfitCreditCard: number;
 
   @ApiProperty()
   @Prop({ default: 0 })
   cost: number;
+
+  @ApiProperty()
+  @Prop({ default: null, nullable: true, enum: WithdrawalReason })
+  costReason: string;
 
   createdAt: Date;
 }
