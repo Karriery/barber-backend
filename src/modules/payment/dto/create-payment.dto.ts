@@ -23,7 +23,11 @@ export class CreatePaymentDto {
   @ApiProperty()
   cost: number;
 
-  @IsNotEmpty()
   @ApiProperty()
-  manualProfit: number;
+  @IsNotEmpty()
+  manualProfitCash: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  manualProfitCreditCard: number;
 }
