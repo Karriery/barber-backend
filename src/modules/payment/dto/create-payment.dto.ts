@@ -30,4 +30,8 @@ export class CreatePaymentDto {
   @ApiProperty()
   @IsNotEmpty()
   manualProfitCreditCard: number;
+
+  @ApiProperty()
+  @IsOptional()
+  costReason: string;
 }
