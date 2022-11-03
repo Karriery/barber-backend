@@ -64,7 +64,9 @@ export class PaymentService {
 
     return this.paymentRepository
       .find({
-        user: filter.userId ? filter.userId : { $ne: null },
+        user: filter.userId
+          ? new mongoose.Types.ObjectId(filter.userId)
+          : { $ne: null },
         //createdAt: filter.date ? new Date(filter.date) : {},
         costReason: !(filter.widthrwal && filter.widthrwal == 'true')
           ? null
