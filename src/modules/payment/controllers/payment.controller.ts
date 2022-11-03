@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { PaymentService } from '../services/payment.service';
 import { CreatePaymentDto } from '../dto/create-payment.dto';
@@ -31,7 +32,7 @@ export class PaymentController {
 
   @Roles(Role.Admin)
   @Get()
-  findAll(@Body() filter?: PaymentFilter) {
+  findAll(@Query() filter?: PaymentFilter) {
     return this.paymentService.findAll(filter);
   }
 
