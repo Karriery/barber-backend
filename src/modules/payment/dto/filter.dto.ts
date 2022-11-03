@@ -27,7 +27,7 @@ export class PaymentFilter {
   @IsOptional()
   @IsBooleanString()
   @ApiProperty({ required: false, default: false })
-  widthrwal: boolean;
+  widthrwal: string;
 
   @IsOptional()
   @IsNumber()
