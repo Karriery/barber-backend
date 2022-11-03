@@ -60,16 +60,18 @@ export class PaymentService {
   }
 
   findAll(filter?: PaymentFilter) {
-    return this.paymentRepository
-      .find({
-        user: filter.userId ? filter.userId : { $ne: null },
-        //createdAt: filter.date ? new Date(filter.date) : {},
-        costReason: filter.widthrwal == true ? { $ne: null } : null,
-      })
-      .populate(['user', 'cuts'])
-      .sort({ createdAt: filter.asc ? 1 : -1 })
-      .skip(filter.cursor)
-      .limit(filter.limit);
+    return (
+      this.paymentRepository
+        .find({
+          user: filter.userId ? filter.userId : { $ne: null },
+          //createdAt: filter.date ? new Date(filter.date) : {},
+          costReason: filter.widthrwal == true ? { $ne: null } : null,
+        })
+        //.populate(['user', 'cuts'])
+        .sort({ createdAt: filter.asc ? 1 : -1 })
+        .skip(filter.cursor)
+        .limit(filter.limit)
+    );
   }
 
   findOne(id: string) {
