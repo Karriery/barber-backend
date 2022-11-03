@@ -59,6 +59,10 @@ export class Payment {
   @Prop({ default: null, nullable: true, enum: WithdrawalReason })
   costReason: string;
 
+  @ApiProperty()
+  @Prop({ nullable: true })
+  description: string;
+
   createdAt: Date;
 }
 

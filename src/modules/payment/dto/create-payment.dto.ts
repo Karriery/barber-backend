@@ -34,4 +34,8 @@ export class CreatePaymentDto {
   @ApiProperty()
   @IsOptional()
   costReason: string;
+
+  @ApiProperty()
+  @IsOptional()
+  description: string;
 }
