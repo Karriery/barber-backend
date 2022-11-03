@@ -60,6 +60,8 @@ export class PaymentService {
   }
 
   findAll(filter?: PaymentFilter) {
+    console.log(filter.widthrwal);
+
     return (
       this.paymentRepository
         .find({
