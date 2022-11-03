@@ -64,7 +64,7 @@ export class PaymentService {
       .find({
         user: filter.userId ? filter.userId : { $ne: null },
         //createdAt: filter.date ? new Date(filter.date) : {},
-        costReason: !filter.widthrwal == false ? { $ne: null } : null,
+        costReason: filter.widthrwal == true ? { $ne: null } : null,
       })
       .populate(['user', 'cuts'])
       .sort({ createdAt: filter.asc ? 1 : -1 })
