@@ -5,6 +5,7 @@ import {
   IsNumber,
   IsBoolean,
   IsDateString,
+  IsBooleanString,
 } from 'class-validator';
 
 export class PaymentFilter {
@@ -24,7 +25,7 @@ export class PaymentFilter {
   date: string;
 
   @IsOptional()
-  @IsBoolean()
+  @IsBooleanString()
   @ApiProperty({ required: false, default: false })
   widthrwal: boolean;
 
