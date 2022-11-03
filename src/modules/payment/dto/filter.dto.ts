@@ -24,6 +24,11 @@ export class PaymentFilter {
   date: string;
 
   @IsOptional()
+  @IsDateString()
+  @ApiProperty({ required: false })
+  widthrwal: boolean;
+
+  @IsOptional()
   @IsNumber()
   @ApiProperty({ required: false, default: 0 })
   cursor: number;

@@ -62,8 +62,9 @@ export class PaymentService {
   findAll(filter?: PaymentFilter) {
     return this.paymentRepository
       .find({
-        //user: filter.userId || {},
+        user: filter.userId ? filter.userId : { $ne: null },
         //createdAt: filter.date ? new Date(filter.date) : {},
+        costReason: !filter.widthrwal ? { $ne: null } : { $eq: null },
       })
       .populate(['user', 'cuts'])
       .sort({ createdAt: filter.asc ? 1 : -1 })
