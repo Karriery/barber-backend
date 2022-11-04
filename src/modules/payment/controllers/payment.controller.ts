@@ -36,7 +36,7 @@ export class PaymentController {
     return this.paymentService.findAll(filter);
   }
 
-  @Roles(Role.Admin)
+  @Roles(Role.Admin, Role.User)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.paymentService.findOne(id);
