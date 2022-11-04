@@ -30,7 +30,7 @@ export class PaymentController {
     return this.paymentService.create(createPaymentDto, user.id);
   }
 
-  @Roles(Role.Admin)
+  @Roles(Role.Admin, Role.User)
   @Get()
   findAll(@Query() filter?: PaymentFilter) {
     return this.paymentService.findAll(filter);
