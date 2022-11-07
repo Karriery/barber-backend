@@ -174,7 +174,8 @@ export class PaymentService {
           totalOrderNetProfit: { $sum: '$orderNetPrice' },
           totalManuelOrderValue: { $sum: '$profit' },
           totalCost: { $sum: '$cost' },
-
+          totalUserCost: { $sum: '$totalUserCost' },
+          totalCutCost: { $sum: '$totalCutCost' },
           totalHaircuts: { $sum: '$totalCuts' },
           totalCash: { $sum: '$manualProfitCash' },
           totalCC: { $sum: '$manualProfitCreditCard' },
