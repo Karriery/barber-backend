@@ -21,7 +21,7 @@ export class AppService {
   async statistics(filter?: Filter) {
     const stat = await Promise.all([
       this.paymentService.workStatistics(filter),
-      this.userService.getTotalSalaries(),
+      this.paymentService.getTotalSalaries(),
     ]);
     return {
       workStatistics: stat[0][0],

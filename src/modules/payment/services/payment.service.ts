@@ -115,6 +115,35 @@ export class PaymentService {
     return salary[0].salary;
   }
 
+  async getTotalSalaries() {
+    const startOfMonth = moment().startOf('month').toDate();
+    const endOfMonth = moment().endOf('month').toDate();
+    const salary = await this.paymentRepository.aggregate([
+      {
+        $addFields: {
+          salary: {
+            $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
+          },
+        },
+      },
+      {
+        $match: {
+          createdAt: {
+            $gte: startOfMonth,
+            $lt: endOfMonth,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: new mongoose.Types.ObjectId(),
+          salary: { $sum: { $multiply: ['$salary', 0.5] } },
+        },
+      },
+    ]);
+    return salary[0].salary;
+  }
+
   workStatistics(filter: Filter = { period: 'DAY' }) {
     return this.paymentRepository.aggregate([
       {
