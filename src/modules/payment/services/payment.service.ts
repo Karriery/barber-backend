@@ -141,7 +141,7 @@ export class PaymentService {
         },
       },
     ]);
-    return salary[0].salary;
+    return salary;
   }
 
   workStatistics(filter: Filter = { period: 'DAY' }) {
