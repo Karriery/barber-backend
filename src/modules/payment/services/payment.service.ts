@@ -68,7 +68,24 @@ export class PaymentService {
         user: filter.userId
           ? new mongoose.Types.ObjectId(filter.userId)
           : { $ne: null },
-        //createdAt: filter.date ? new Date(filter.date) : {},
+        createdAt:
+          filter.dateStart && filter.dateEnd
+            ? {
+                createdAt: {
+                  $gte: moment(filter.dateStart)
+                    .hours(1)
+                    .minutes(0)
+                    .seconds(0)
+                    .toDate(),
+                  $lt: moment(filter.dateEnd)
+                    .hours(1)
+                    .minutes(0)
+                    .seconds(0)
+                    .add(1, 'days')
+                    .toDate(),
+                },
+              }
+            : {},
         costReason: !(filter.widthrwal && filter.widthrwal == 'true')
           ? null
           : { $ne: null },

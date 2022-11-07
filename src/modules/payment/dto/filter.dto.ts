@@ -20,11 +20,6 @@ export class PaymentFilter {
   userId: string;
 
   @IsOptional()
-  @IsDateString()
-  @ApiProperty({ required: false })
-  date: string;
-
-  @IsOptional()
   @ApiProperty({ required: false, default: 'false' })
   widthrwal: string;
 
@@ -37,4 +32,14 @@ export class PaymentFilter {
   @IsBoolean()
   @ApiProperty({ required: false, default: true })
   asc: boolean;
+
+  @IsOptional()
+  @IsDateString()
+  @ApiProperty({ required: false })
+  dateStart;
+
+  @IsOptional()
+  @IsDateString()
+  @ApiProperty({ required: false })
+  dateEnd;
 }
