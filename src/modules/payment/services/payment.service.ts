@@ -83,7 +83,7 @@ export class PaymentService {
                   .add(1, 'days')
                   .toDate(),
               }
-            : {},
+            : { $ne: null },
         costReason: !(filter.widthrwal && filter.widthrwal == 'true')
           ? null
           : { $ne: null },
