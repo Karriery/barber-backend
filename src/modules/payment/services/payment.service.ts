@@ -11,6 +11,7 @@ import {
   Payment,
   PaymentDocument,
   PaymentMethod,
+  WithdrawalReason,
 } from '../entities/payment.entity';
 
 @Injectable()
@@ -143,6 +144,20 @@ export class PaymentService {
       {
         $project: {
           lookupdata: 0,
+          userCost: {
+            $cond: [
+              { $eq: ['$costReason', WithdrawalReason.PERSONAL_COST] },
+              '$cost',
+              0,
+            ],
+          },
+          cutCost: {
+            $cond: [
+              { $eq: ['$costReason', WithdrawalReason.CUT_COST] },
+              '$cost',
+              0,
+            ],
+          },
         },
       },
       {
@@ -157,6 +172,8 @@ export class PaymentService {
           totalOrderNetProfit: { $sum: '$orderNetPrice' },
           totalManuelOrderValue: { $sum: '$profit' },
           totalCost: { $sum: '$cost' },
+          totalUserCost: { $sum: '$userCost' },
+          totalCutCost: { $sum: '$cutCost' },
           totalHaircuts: { $sum: '$totalCuts' },
           totalCash: { $sum: '$manualProfitCash' },
           totalCC: { $sum: '$manualProfitCreditCard' },
