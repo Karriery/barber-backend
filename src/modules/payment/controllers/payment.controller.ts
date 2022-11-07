@@ -42,9 +42,13 @@ export class PaymentController {
     return this.paymentService.findOne(id);
   }
 
-  @Roles(Role.Admin)
   @Post('all')
   updateAll(@Body() createPaymentDto: CreatePaymentDto[], @User() user) {
     return this.paymentService.createMany(createPaymentDto, user.id);
+  }
+
+  @Delete(':id')
+  rempve(@Param('id') id: string, @User() user) {
+    return this.paymentService.remove(id, user.id);
   }
 }

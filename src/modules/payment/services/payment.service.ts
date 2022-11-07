@@ -164,4 +164,8 @@ export class PaymentService {
       { $sort: { _id: 1 } },
     ]);
   }
+
+  remove(id: string, id1: any) {
+    return this.paymentRepository.deleteOne({ _id: id });
+  }
 }
