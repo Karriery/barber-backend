@@ -71,19 +71,17 @@ export class PaymentService {
         createdAt:
           filter.dateStart && filter.dateEnd
             ? {
-                createdAt: {
-                  $gte: moment(filter.dateStart)
-                    .hours(1)
-                    .minutes(0)
-                    .seconds(0)
-                    .toDate(),
-                  $lt: moment(filter.dateEnd)
-                    .hours(1)
-                    .minutes(0)
-                    .seconds(0)
-                    .add(1, 'days')
-                    .toDate(),
-                },
+                $gte: moment(filter.dateStart)
+                  .hours(1)
+                  .minutes(0)
+                  .seconds(0)
+                  .toDate(),
+                $lt: moment(filter.dateEnd)
+                  .hours(1)
+                  .minutes(0)
+                  .seconds(0)
+                  .add(1, 'days')
+                  .toDate(),
               }
             : {},
         costReason: !(filter.widthrwal && filter.widthrwal == 'true')
