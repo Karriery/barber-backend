@@ -93,7 +93,7 @@ export class PaymentService {
       {
         $addFields: {
           salary: {
-            $sum: '$manualProfit',
+            $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
           },
         },
       },
