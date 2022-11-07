@@ -34,12 +34,10 @@ export class PaymentFilter {
   asc: boolean;
 
   @IsOptional()
-  @IsDateString()
   @ApiProperty({ required: false })
   dateStart;
 
   @IsOptional()
-  @IsDateString()
   @ApiProperty({ required: false })
   dateEnd;
 }
