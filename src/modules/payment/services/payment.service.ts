@@ -43,6 +43,10 @@ export class PaymentService {
       const payment = await this.paymentRepository.create({
         ...createPaymentDto,
         user: id,
+        manualProfitCash:
+          settings.priceModification * createPaymentDto.manualProfitCash,
+        manualProfitCreditCard:
+          settings.priceModification * createPaymentDto.manualProfitCreditCard,
         priceModification: settings.priceModification,
       });
       user.payments.push(payment);
