@@ -195,9 +195,29 @@ export class PaymentService {
         },
       },
       {
-        $match: filter.userId
-          ? { user: new mongoose.Types.ObjectId(filter.userId) }
-          : {},
+        $match: {
+          ...(filter.userId
+            ? { user: new mongoose.Types.ObjectId(filter.userId) }
+            : {}),
+
+          ...(filter.dateStart && filter.dateEnd
+            ? {
+                createdAt: {
+                  $gte: moment(filter.dateStart)
+                    .hours(1)
+                    .minutes(0)
+                    .seconds(0)
+                    .toDate(),
+                  $lt: moment(filter.dateEnd)
+                    .hours(1)
+                    .minutes(0)
+                    .seconds(0)
+                    .add(1, 'days')
+                    .toDate(),
+                },
+              }
+            : {}),
+        },
       },
       {
         $group: {
