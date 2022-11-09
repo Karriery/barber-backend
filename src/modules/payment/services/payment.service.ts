@@ -28,9 +28,6 @@ export class PaymentService {
 
   async create(createPaymentDto: CreatePaymentDto, id) {
     const user = await this.userService.findOne(id);
-    console.log('====================================');
-    console.log(createPaymentDto);
-    console.log('====================================');
     if (user) {
       if (
         createPaymentDto.recipes.length == 0 &&
@@ -41,9 +38,6 @@ export class PaymentService {
       }
       if (!createPaymentDto.method.includes(PaymentMethod.CASH)) {
         createPaymentDto.manualProfitCash = 0;
-        console.log('====================================');
-        console.log('d');
-        console.log('====================================');
       }
       if (!createPaymentDto.method.includes(PaymentMethod.CC)) {
         createPaymentDto.manualProfitCreditCard = 0;
@@ -64,9 +58,9 @@ export class PaymentService {
         ...createPaymentDto,
         user: id,
         manualProfitCash:
-          settings.priceModification * createPaymentDto.manualProfitCash,
+          /*settings.priceModification */ createPaymentDto.manualProfitCash,
         manualProfitCreditCard:
-          settings.priceModification * createPaymentDto.manualProfitCreditCard,
+          /*settings.priceModification */ createPaymentDto.manualProfitCreditCard,
         priceModification: settings.priceModification,
       });
       user.payments.push(payment);
