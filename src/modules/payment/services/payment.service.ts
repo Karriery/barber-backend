@@ -13,12 +13,15 @@ import {
   PaymentMethod,
   WithdrawalReason,
 } from '../entities/payment.entity';
+import { Recipe, RecipeDocument } from '../entities/recipe.entity';
 
 @Injectable()
 export class PaymentService {
   constructor(
     @InjectModel(Payment.name)
     private paymentRepository: Model<PaymentDocument>,
+    @InjectModel(Recipe.name)
+    private recipeRepository: Model<RecipeDocument>,
     private adminService: AdminService,
     private userService: UserService,
   ) {}
@@ -27,7 +30,7 @@ export class PaymentService {
     const user = await this.userService.findOne(id);
     if (user) {
       if (
-        createPaymentDto.cuts.length == 0 &&
+        createPaymentDto.recipes.length == 0 &&
         createPaymentDto.manualProfitCash > 0 &&
         createPaymentDto.manualProfitCreditCard > 0
       ) {
@@ -39,6 +42,19 @@ export class PaymentService {
       if (!createPaymentDto.method.includes(PaymentMethod.CC)) {
         createPaymentDto.manualProfitCreditCard = 0;
       }
+
+      //@ts-ignore
+      createPaymentDto.recipes = await Promise.all(
+        createPaymentDto.recipes.map((recipe) =>
+          //@ts-ignore
+          this.recipeRepository
+            .create({ ...recipe, tva: recipe.price * 0.15 })
+            .then((data) => data._id),
+        ),
+      );
+
+      console.log(createPaymentDto.recipes);
+
       const settings = await this.adminService.settings();
       const payment = await this.paymentRepository.create({
         ...createPaymentDto,
@@ -53,7 +69,7 @@ export class PaymentService {
       await this.userService.updateRAW(user._id, user);
       return this.paymentRepository
         .findById(payment._id)
-        .populate(['user', 'cuts']);
+        .populate(['user', 'recipe']);
     }
   }
 
@@ -187,8 +203,8 @@ export class PaymentService {
     return this.paymentRepository.aggregate([
       {
         $lookup: {
-          from: 'cuts',
-          localField: 'cuts',
+          from: 'recipes',
+          localField: 'recipes',
           foreignField: '_id',
           as: 'lookupdata',
         },
@@ -219,7 +235,6 @@ export class PaymentService {
               ],
             },
           },
-
           profit: {
             $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
           },

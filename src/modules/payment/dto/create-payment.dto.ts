@@ -5,7 +5,7 @@ import { IsArray, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 export class CreatePaymentDto {
   @IsArray()
   @ApiProperty()
-  cuts: string[];
+  recipes: { cut: string; price: number }[];
 
   @IsOptional()
   @ApiProperty()

@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { Cut } from 'src/modules/cut/entities/cut.entity';
 import { User } from 'src/modules/user/entities/user.entity';
+import { Recipe } from './recipe.entity';
 
 export enum PaymentMethod {
   CASH = 'CASH',
@@ -24,8 +25,8 @@ export class Payment {
   user: User;
 
   @ApiProperty()
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: () => Cut }] })
-  cuts: Cut[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: () => Recipe }] })
+  recipes: Recipe[];
 
   @ApiProperty()
   @Prop({ default: [PaymentMethod.CASH] })
@@ -47,6 +48,8 @@ export class Payment {
   @Prop({ default: 0 })
   manualProfitCash: number;
 
+  @ApiProperty()
+  @Prop({ default: 0 })
   @ApiProperty()
   @Prop({ default: 0 })
   manualProfitCreditCard: number;

@@ -4,10 +4,14 @@ import { PaymentController } from './controllers/payment.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Payment, PaymentSchema } from './entities/payment.entity';
 import { UserModule } from '../user/user.module';
+import { Recipe, RecipeSchema } from './entities/recipe.entity';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Payment.name, schema: PaymentSchema }]),
+    MongooseModule.forFeature([
+      { name: Payment.name, schema: PaymentSchema },
+      { name: Recipe.name, schema: RecipeSchema },
+    ]),
     forwardRef(() => UserModule),
   ],
   controllers: [PaymentController],
