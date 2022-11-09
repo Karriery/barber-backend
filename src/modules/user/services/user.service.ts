@@ -116,16 +116,18 @@ export class UserService {
     } else if (filter.period == 'MONTH') {
       format = '%Y-%m';
     }
-    console.log(filter);
-    console.log({
-      $gte: moment(filter.dateStart).hours(1).minutes(0).seconds(0).toDate(),
-      $lt: moment(filter.dateEnd)
-        .hours(1)
-        .minutes(0)
-        .seconds(0)
-        .add(1, 'days')
-        .toDate(),
-    });
+
+    const start = filter.dateStart
+      ? moment(filter.dateStart).hours(1).minutes(0).seconds(0).toDate()
+      : moment().startOf('month').hours(1).minutes(0).seconds(0).toDate();
+    const end = filter.dateEnd
+      ? moment(filter.dateEnd)
+          .hours(1)
+          .minutes(0)
+          .seconds(0)
+          .add(1, 'days')
+          .toDate()
+      : moment().endOf('month').hours(1).minutes(0).seconds(0).toDate();
 
     return this.userRepository.aggregate([
       {
@@ -136,24 +138,12 @@ export class UserService {
           let: { createdAt: 'createdAt' },
           pipeline: [
             {
-              $match:
-                filter.dateStart && filter.dateEnd
-                  ? {
-                      createdAt: {
-                        $gte: moment(filter.dateStart)
-                          .hours(1)
-                          .minutes(0)
-                          .seconds(0)
-                          .toDate(),
-                        $lt: moment(filter.dateEnd)
-                          .hours(1)
-                          .minutes(0)
-                          .seconds(0)
-                          .add(1, 'days')
-                          .toDate(),
-                      },
-                    }
-                  : {},
+              $match: {
+                createdAt: {
+                  $gte: start,
+                  $lt: end,
+                },
+              },
             },
           ],
           as: 'lookupPayments',
