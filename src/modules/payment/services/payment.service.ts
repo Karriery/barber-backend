@@ -50,7 +50,6 @@ export class PaymentService {
         priceModification: settings.priceModification,
       });
       user.payments.push(payment);
-      user.salary = await this.calculateSalary(user._id);
       await this.userService.updateRAW(user._id, user);
       return this.paymentRepository
         .findById(payment._id)
@@ -65,8 +64,17 @@ export class PaymentService {
   }
 
   findAll(filter?: PaymentFilter) {
-    console.log(filter.widthrwal);
-
+    const start = filter.dateStart
+      ? moment(filter.dateStart).hours(1).minutes(0).seconds(0).toDate()
+      : moment().startOf('month').hours(1).minutes(0).seconds(0).toDate();
+    const end = filter.dateEnd
+      ? moment(filter.dateEnd)
+          .hours(1)
+          .minutes(0)
+          .seconds(0)
+          .add(1, 'days')
+          .toDate()
+      : moment().endOf('month').hours(1).minutes(0).seconds(0).toDate();
     return this.paymentRepository
       .find({
         user: filter.userId
@@ -75,17 +83,8 @@ export class PaymentService {
         createdAt:
           filter.dateStart && filter.dateEnd
             ? {
-                $gte: moment(filter.dateStart)
-                  .hours(1)
-                  .minutes(0)
-                  .seconds(0)
-                  .toDate(),
-                $lt: moment(filter.dateEnd)
-                  .hours(1)
-                  .minutes(0)
-                  .seconds(0)
-                  .add(1, 'days')
-                  .toDate(),
+                $gte: start,
+                $lt: end,
               }
             : { $ne: null },
         costReason: !(filter.widthrwal && filter.widthrwal == 'true')
@@ -111,7 +110,7 @@ export class PaymentService {
       },
       {
         $addFields: {
-          salary: {
+          profit: {
             $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
           },
         },
@@ -127,7 +126,7 @@ export class PaymentService {
       {
         $group: {
           _id: new mongoose.Types.ObjectId(id),
-          salary: { $sum: { $multiply: ['$salary', 0.5] } },
+          salary: { $sum: { $multiply: ['$profit', 0.5] } },
         },
       },
     ]);
@@ -140,7 +139,7 @@ export class PaymentService {
     const salary = await this.paymentRepository.aggregate([
       {
         $addFields: {
-          salary: {
+          profit: {
             $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
           },
         },
@@ -156,7 +155,7 @@ export class PaymentService {
       {
         $group: {
           _id: new mongoose.Types.ObjectId(),
-          salary: { $sum: { $multiply: ['$salary', 0.5] } },
+          salary: { $sum: { $multiply: ['$profit', 0.5] } },
         },
       },
     ]);
@@ -164,6 +163,17 @@ export class PaymentService {
   }
 
   workStatistics(filter: Filter = { period: 'DAY' }) {
+    const start = filter.dateStart
+      ? moment(filter.dateStart).hours(1).minutes(0).seconds(0).toDate()
+      : moment().startOf('month').hours(1).minutes(0).seconds(0).toDate();
+    const end = filter.dateEnd
+      ? moment(filter.dateEnd)
+          .hours(1)
+          .minutes(0)
+          .seconds(0)
+          .add(1, 'days')
+          .toDate()
+      : moment().endOf('month').hours(1).minutes(0).seconds(0).toDate();
     return this.paymentRepository.aggregate([
       {
         $lookup: {
@@ -219,23 +229,10 @@ export class PaymentService {
             ? { user: new mongoose.Types.ObjectId(filter.userId) }
             : {}),
 
-          ...(filter.dateStart && filter.dateEnd
-            ? {
-                createdAt: {
-                  $gte: moment(filter.dateStart)
-                    .hours(1)
-                    .minutes(0)
-                    .seconds(0)
-                    .toDate(),
-                  $lt: moment(filter.dateEnd)
-                    .hours(1)
-                    .minutes(0)
-                    .seconds(0)
-                    .add(1, 'days')
-                    .toDate(),
-                },
-              }
-            : {}),
+          createdAt: {
+            $gte: start,
+            $lt: end,
+          },
         },
       },
       {

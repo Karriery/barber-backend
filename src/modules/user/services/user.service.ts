@@ -175,7 +175,10 @@ export class UserService {
       {
         $addFields: {
           orderPrice: {
-            $sum: '$lookupCut.price',
+            $sum: [
+              '$lookupPayments.manualProfitCash',
+              '$lookupPayments.manualProfitCreditCard',
+            ],
           },
           costPrice: {
             $sum: '$lookupPayments.cost',

@@ -14,7 +14,10 @@ export class CutService {
 
   create(createCutDto: CreateCutDto) {
     createCutDto.price = createCutDto.price * 1;
-    return this.cutRepository.create(createCutDto);
+    return this.cutRepository.create({
+      ...createCutDto,
+      tva: createCutDto.price * 0.15,
+    });
   }
 
   findAll() {

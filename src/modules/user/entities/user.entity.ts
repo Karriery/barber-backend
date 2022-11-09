@@ -26,12 +26,6 @@ export class User {
   age: number;
 
   @ApiProperty()
-  @Prop({
-    default: 0,
-  })
-  salary: number;
-
-  @ApiProperty()
   @Prop()
   legalId: string;
 

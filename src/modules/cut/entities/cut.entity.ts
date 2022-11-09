@@ -19,7 +19,7 @@ export class Cut {
   price: number;
 
   @ApiProperty()
-  @Prop()
+  @Prop({ default: 0 })
   tva: number;
 
   createdAt: Date;
