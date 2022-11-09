@@ -28,6 +28,9 @@ export class PaymentService {
 
   async create(createPaymentDto: CreatePaymentDto, id) {
     const user = await this.userService.findOne(id);
+    console.log('====================================');
+    console.log(createPaymentDto);
+    console.log('====================================');
     if (user) {
       if (
         createPaymentDto.recipes.length == 0 &&
@@ -52,8 +55,6 @@ export class PaymentService {
             .then((data) => data._id),
         ),
       );
-
-      console.log(createPaymentDto.recipes);
 
       const settings = await this.adminService.settings();
       const payment = await this.paymentRepository.create({
