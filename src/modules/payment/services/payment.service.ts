@@ -41,6 +41,9 @@ export class PaymentService {
       }
       if (!createPaymentDto.method.includes(PaymentMethod.CASH)) {
         createPaymentDto.manualProfitCash = 0;
+        console.log('====================================');
+        console.log('d');
+        console.log('====================================');
       }
       if (!createPaymentDto.method.includes(PaymentMethod.CC)) {
         createPaymentDto.manualProfitCreditCard = 0;
