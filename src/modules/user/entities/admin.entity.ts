@@ -7,7 +7,7 @@ export class Admin {
   _id: string;
 
   @ApiProperty()
-  @Prop({ default: 0 })
+  @Prop({ default: 1 })
   priceModification: number;
 
   @ApiProperty()

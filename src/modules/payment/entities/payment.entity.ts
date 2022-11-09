@@ -42,6 +42,10 @@ export class Payment {
 
   @ApiProperty()
   @Prop({ default: 0 })
+  tva: number;
+
+  @ApiProperty()
+  @Prop({ default: 0 })
   priceModification: number;
 
   @ApiProperty()
