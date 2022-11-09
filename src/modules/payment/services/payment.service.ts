@@ -69,7 +69,7 @@ export class PaymentService {
       await this.userService.updateRAW(user._id, user);
       return this.paymentRepository
         .findById(payment._id)
-        .populate(['user', 'recipe']);
+        .populate(['user', 'recipes']);
     }
   }
 
