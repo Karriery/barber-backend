@@ -51,4 +51,10 @@ export class PaymentController {
   rempve(@Param('id') id: string, @User() user) {
     return this.paymentService.remove(id, user.id);
   }
+
+  @Roles(Role.Admin, Role.User)
+  @Get('/statistics')
+  statistics(@User() user) {
+    return this.paymentService.dailyStatistics(user._id);
+  }
 }

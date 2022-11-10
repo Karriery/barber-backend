@@ -296,6 +296,21 @@ export class PaymentService {
     ]);
   }
 
+  async dailyStatistics(id) {
+    const stats = await Promise.all([
+      this.workStatistics({ userId: id }),
+      this.workStatistics({
+        userId: id,
+        dateStart: moment(new Date()).toDate(),
+        dateEnd: moment(new Date()).add('day', 1).toDate(),
+      }),
+    ]);
+    return {
+      monthly: stats[0],
+      daily: stats[1],
+    };
+  }
+
   remove(id: string, id1: any) {
     return this.paymentRepository.deleteOne({ _id: id });
   }
