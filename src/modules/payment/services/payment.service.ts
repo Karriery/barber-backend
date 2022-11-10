@@ -306,8 +306,8 @@ export class PaymentService {
       }),
     ]);
     return {
-      monthly: stats[0],
-      daily: stats[1],
+      monthly: stats[0][0],
+      daily: stats[1][0],
     };
   }
 
