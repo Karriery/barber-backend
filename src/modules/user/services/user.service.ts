@@ -173,6 +173,9 @@ export class UserService {
           costPrice: {
             $sum: '$lookupPayments.cost',
           },
+          tva: {
+            $sum: ['$lookupPayments.tva'],
+          },
           totalCuts: {
             $size: '$lookupCut',
           },
@@ -185,6 +188,7 @@ export class UserService {
           name: { $last: { $concat: ['$firstName', ' ', '$lastName'] } },
           salary: { $sum: { $multiply: ['$orderPrice', 0.5] } },
           cost: { $sum: '$costPrice' },
+          totalTva: { $sum: '$tva' },
           profit: { $sum: '$orderPrice' },
           cutsCount: { $sum: '$totalCuts' },
         },

@@ -256,6 +256,9 @@ export class PaymentService {
           profit: {
             $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
           },
+          tva: {
+            $sum: ['$tva'],
+          },
           orderNetPrice: {
             $subtract: ['$orderPrice', '$cost'],
           },
@@ -288,6 +291,7 @@ export class PaymentService {
           totalUserCost: { $sum: '$userCost' },
           totalCutCost: { $sum: '$cutCost' },
           totalHaircuts: { $sum: '$totalCuts' },
+          totalTva: { $sum: '$tva' },
           totalCash: { $sum: '$manualProfitCash' },
           totalCC: { $sum: '$manualProfitCreditCard' },
         },
