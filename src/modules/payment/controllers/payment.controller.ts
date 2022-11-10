@@ -33,9 +33,6 @@ export class PaymentController {
   @Roles(Role.Admin, Role.User)
   @Get('/statistics')
   statistics(@User() user) {
-    console.log('====================================');
-    console.log(user);
-    console.log('====================================');
     return this.paymentService.dailyStatistics(user.id);
   }
 

@@ -302,7 +302,7 @@ export class PaymentService {
       this.workStatistics({
         userId: id,
         dateStart: moment(new Date()).toDate(),
-        dateEnd: moment(new Date()).add('day', 1).toDate(),
+        dateEnd: moment(new Date()).add(1, 'day').toDate(),
       }),
     ]);
     return {
