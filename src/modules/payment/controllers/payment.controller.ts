@@ -31,6 +31,15 @@ export class PaymentController {
   }
 
   @Roles(Role.Admin, Role.User)
+  @Get('/statistics')
+  statistics(@User() user) {
+    console.log('====================================');
+    console.log(user);
+    console.log('====================================');
+    return this.paymentService.dailyStatistics(user.id);
+  }
+
+  @Roles(Role.Admin, Role.User)
   @Get()
   findAll(@Query() filter?: PaymentFilter) {
     return this.paymentService.findAll(filter);
@@ -50,14 +59,5 @@ export class PaymentController {
   @Delete(':id')
   rempve(@Param('id') id: string, @User() user) {
     return this.paymentService.remove(id, user.id);
-  }
-
-  @Roles(Role.Admin, Role.User)
-  @Get('/statistics')
-  statistics(@User() user) {
-    console.log('====================================');
-    console.log(user);
-    console.log('====================================');
-    return this.paymentService.dailyStatistics(user.id);
   }
 }
