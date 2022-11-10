@@ -297,9 +297,6 @@ export class PaymentService {
   }
 
   async dailyStatistics(id) {
-    console.log('====================================');
-    console.log(id);
-    console.log('====================================');
     const stats = await Promise.all([
       this.workStatistics({ userId: id }),
       this.workStatistics({

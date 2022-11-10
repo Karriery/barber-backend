@@ -55,6 +55,6 @@ export class PaymentController {
   @Roles(Role.Admin, Role.User)
   @Get('/statistics')
   statistics(@User() user) {
-    return this.paymentService.dailyStatistics(user._id);
+    return this.paymentService.dailyStatistics(user.id);
   }
 }
