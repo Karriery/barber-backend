@@ -67,7 +67,13 @@ export class PaymentService {
       await this.userService.updateRAW(user._id, user);
       return this.paymentRepository
         .findById(payment._id)
-        .populate(['user', 'recipes']);
+        .populate(['user'])
+        .populate({
+          path: 'recipes',
+          populate: {
+            path: 'cut',
+          },
+        });
     }
   }
 
@@ -105,14 +111,28 @@ export class PaymentService {
           ? null
           : { $ne: null },
       })
-      .populate(['user', 'recipes'])
+      .populate(['user'])
+      .populate({
+        path: 'recipes',
+        populate: {
+          path: 'cut',
+        },
+      })
       .sort({ createdAt: filter.asc ? 1 : -1 })
       .skip(filter.cursor)
       .limit(filter.limit);
   }
 
   findOne(id: string) {
-    return this.paymentRepository.findById(id).populate(['user', 'recipes']);
+    return this.paymentRepository
+      .findById(id)
+      .populate(['user'])
+      .populate({
+        path: 'recipes',
+        populate: {
+          path: 'cut',
+        },
+      });
   }
 
   async calculateSalary(id) {
