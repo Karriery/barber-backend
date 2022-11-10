@@ -105,14 +105,14 @@ export class PaymentService {
           ? null
           : { $ne: null },
       })
-      .populate(['user', 'cuts'])
+      .populate(['user', 'recipes'])
       .sort({ createdAt: filter.asc ? 1 : -1 })
       .skip(filter.cursor)
       .limit(filter.limit);
   }
 
   findOne(id: string) {
-    return this.paymentRepository.findById(id).populate(['user', 'cuts']);
+    return this.paymentRepository.findById(id).populate(['user', 'recipes']);
   }
 
   async calculateSalary(id) {
