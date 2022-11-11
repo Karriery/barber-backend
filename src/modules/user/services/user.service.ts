@@ -181,7 +181,9 @@ export class UserService {
             $sum: ['$lookupPayments.tva'],
           },
           totalCuts: {
-            $sum: 1,
+            $sum: {
+              $cond: [{ $eq: ['$costReason', null] }, 1, 0],
+            },
           },
         },
       },

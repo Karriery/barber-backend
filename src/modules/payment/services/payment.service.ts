@@ -233,7 +233,9 @@ export class PaymentService {
             $sum: '$lookupdata.price',
           },
           totalCuts: {
-            $sum: 1,
+            $sum: {
+              $cond: [{ $eq: ['$costReason', null] }, 1, 0],
+            },
           },
           userCost: {
             $sum: {
