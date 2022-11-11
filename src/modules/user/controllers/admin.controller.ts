@@ -32,7 +32,7 @@ export class AdminController {
   @Roles(Role.Admin)
   @Patch('/current')
   updateProfile(@User() user, @Body() updateAdminDto: UpdateAdminDto) {
-    return this.adminService.updateProfile(user.email, updateAdminDto);
+    return this.adminService.update(user.id, updateAdminDto);
   }
 
   @Roles(Role.Admin)

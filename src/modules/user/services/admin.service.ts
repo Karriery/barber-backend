@@ -49,6 +49,9 @@ export class AdminService {
   }
 
   async update(id: number, updateAdminDto: UpdateAdminDto) {
+    console.log('====================================');
+    console.log(updateAdminDto);
+    console.log('====================================');
     return this.adminRepository.findByIdAndUpdate(id, updateAdminDto);
   }
 
