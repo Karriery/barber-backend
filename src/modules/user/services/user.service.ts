@@ -195,7 +195,12 @@ export class UserService {
           salary: { $sum: { $multiply: ['$profit', 0.5] } },
           cost: { $sum: '$costPrice' },
           totalTva: { $sum: '$tva' },
-          profit: { $sum: '$profit' },
+          profit: {
+            $sum: [
+              '$lookupPayments.manualProfitCreditCard',
+              '$lookupPayments.manualProfitCash',
+            ],
+          },
           cutsCount: { $sum: '$totalCuts' },
         },
       },
