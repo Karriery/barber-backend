@@ -160,8 +160,8 @@ export class UserService {
       },
       {
         $lookup: {
-          from: 'cuts',
-          localField: 'lookupPayments.cuts',
+          from: 'recipes',
+          localField: 'lookupPayments.recipes',
           foreignField: '_id',
           as: 'lookupCut',
         },
