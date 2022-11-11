@@ -166,6 +166,7 @@ export class UserService {
           as: 'lookupCut',
         },
       },
+      { $project: { lookupCut: 0, lookupPayments: 0 } },
       {
         $addFields: {
           orderPrice: {
@@ -185,7 +186,6 @@ export class UserService {
           },
         },
       },
-      { $project: { lookupCut: 0, lookupPayments: 0 } },
       {
         $group: {
           _id: '$_id',
