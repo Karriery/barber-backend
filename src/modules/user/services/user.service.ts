@@ -170,9 +170,6 @@ export class UserService {
           manualProfitCreditCard: {
             $sum: ['$lookupPayments.manualProfitCreditCard'],
           },
-          profit: {
-            $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
-          },
           costPrice: {
             $sum: '$lookupPayments.cost',
           },
@@ -192,7 +189,7 @@ export class UserService {
           salary: { $sum: { $multiply: ['$profit', 0.5] } },
           cost: { $sum: '$costPrice' },
           totalTva: { $sum: '$tva' },
-          profit: { $sum: '$profit' },
+          profit: { $sum: ['$manualProfitCreditCard', '$manualProfitCash'] },
           cutsCount: { $sum: '$totalCuts' },
         },
       },
