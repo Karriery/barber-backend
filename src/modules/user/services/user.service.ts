@@ -171,7 +171,7 @@ export class UserService {
       },
       {
         $addFields: {
-          profit: {
+          orderPrice: {
             $sum: '$lookupPayments.profit',
           },
           costPrice: {
@@ -196,10 +196,10 @@ export class UserService {
         $group: {
           _id: '$_id',
           name: { $last: { $concat: ['$firstName', ' ', '$lastName'] } },
-          salary: { $sum: { $multiply: ['$profit', 0.5] } },
+          salary: { $sum: { $multiply: ['$orderPrice', 0.5] } },
           cost: { $sum: '$costPrice' },
           totalTva: { $sum: '$tva' },
-          profit: { $sum: '$profit' },
+          profit: { $sum: '$orderPrice' },
           cutsCount: { $sum: '$totalCuts' },
         },
       },
