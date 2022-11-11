@@ -185,6 +185,7 @@ export class UserService {
         $project: {
           lookupCut: 0,
           lookupPayments: 0,
+          profit: 0,
         },
       },
       {
