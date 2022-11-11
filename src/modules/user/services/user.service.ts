@@ -129,6 +129,10 @@ export class UserService {
           .toDate()
       : moment().endOf('month').hours(1).minutes(0).seconds(0).toDate();
 
+    console.log('====================================');
+    console.log(start, end);
+    console.log('====================================');
+
     return this.userRepository.aggregate([
       {
         $lookup: {
