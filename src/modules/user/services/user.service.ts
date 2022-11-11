@@ -164,11 +164,11 @@ export class UserService {
       },
       {
         $addFields: {
-          orderPrice: {
-            $sum: [
-              '$lookupPayments.manualProfitCash',
-              '$lookupPayments.manualProfitCreditCard',
-            ],
+          manualProfitCash: {
+            $sum: ['$lookupPayments.manualProfitCash'],
+          },
+          manualProfitCreditCard: {
+            $sum: ['$lookupPayments.manualProfitCreditCard'],
           },
           costPrice: {
             $sum: '$lookupPayments.cost',
@@ -186,10 +186,10 @@ export class UserService {
         $group: {
           _id: '$_id',
           name: { $last: { $concat: ['$firstName', ' ', '$lastName'] } },
-          salary: { $sum: { $multiply: ['$orderPrice', 0.5] } },
+          salary: { $sum: ['$manualProfitCash', '$manualProfitCreditCard'] },
           cost: { $sum: '$costPrice' },
           totalTva: { $sum: '$tva' },
-          profit: { $sum: '$orderPrice' },
+          profit: { $sum: ['$manualProfitCash', '$manualProfitCreditCard'] },
           cutsCount: { $sum: '$totalCuts' },
         },
       },
