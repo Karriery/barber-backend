@@ -145,6 +145,13 @@ export class UserService {
                 },
               },
             },
+            {
+              $addFields: {
+                profit: {
+                  $sum: ['$manualProfitCreditCard', '$manualProfitCash'],
+                },
+              },
+            },
           ],
           as: 'lookupPayments',
         },
@@ -165,10 +172,7 @@ export class UserService {
       {
         $addFields: {
           profit: {
-            $sum: [
-              '$lookupPayments.manualProfitCreditCard',
-              '$lookupPayments.manualProfitCash',
-            ],
+            $sum: '$lookupPayments.profit',
           },
           costPrice: {
             $sum: '$lookupPayments.cost',
@@ -195,12 +199,7 @@ export class UserService {
           salary: { $sum: { $multiply: ['$profit', 0.5] } },
           cost: { $sum: '$costPrice' },
           totalTva: { $sum: '$tva' },
-          profit: {
-            $sum: [
-              '$lookupPayments.manualProfitCreditCard',
-              '$lookupPayments.manualProfitCash',
-            ],
-          },
+          profit: { $sum: '$profit' },
           cutsCount: { $sum: '$totalCuts' },
         },
       },
