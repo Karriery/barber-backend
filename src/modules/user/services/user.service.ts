@@ -171,7 +171,7 @@ export class UserService {
           orderPrice: {
             $sum: [
               '$lookupPayments.manualProfitCash',
-              '$lookupPayments.manualProfitCreditCard',
+              //'$lookupPayments.manualProfitCreditCard',
             ],
           },
           costPrice: {
