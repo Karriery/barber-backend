@@ -181,15 +181,26 @@ export class UserService {
           },
         },
       },
-      { $project: { lookupCut: 0, lookupPayments: 0 } },
+      {
+        $project: {
+          lookupCut: 0,
+          lookupPayments: 0,
+          profit: {
+            $sum: [
+              '$lookupPayments.manualProfitCreditCard',
+              '$lookupPayments.manualProfitCash',
+            ],
+          },
+        },
+      },
       {
         $group: {
           _id: '$_id',
           name: { $last: { $concat: ['$firstName', ' ', '$lastName'] } },
-          salary: { $sum: ['$manualProfitCash', '$manualProfitCreditCard'] },
+          salary: { $sum: { $multiply: ['$profit', 0.5] } },
           cost: { $sum: '$costPrice' },
           totalTva: { $sum: '$tva' },
-          profit: { $sum: ['$manualProfitCash', '$manualProfitCreditCard'] },
+          profit: { $sum: '$profit' },
           cutsCount: { $sum: '$totalCuts' },
         },
       },
