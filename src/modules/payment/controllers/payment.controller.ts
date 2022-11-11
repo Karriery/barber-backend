@@ -50,9 +50,6 @@ export class PaymentController {
 
   @Post('all')
   updateAll(@Body() createPaymentDto: CreatePaymentDto[], @User() user) {
-    console.log('====================================');
-    console.log(createPaymentDto);
-    console.log('====================================');
     return this.paymentService.createMany(createPaymentDto, user.id);
   }
 
