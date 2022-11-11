@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CutService } from './modules/cut/services/cut.service';
 import { PaymentService } from './modules/payment/services/payment.service';
+import { AdminService } from './modules/user/services/admin.service';
 import { UserService } from './modules/user/services/user.service';
 
 export type Filter = {
@@ -16,6 +17,7 @@ export class AppService {
     private readonly paymentService: PaymentService,
     private readonly cutService: CutService,
     private readonly userService: UserService,
+    private readonly adminService: AdminService,
   ) {}
 
   async statistics(filter?: Filter) {
@@ -27,5 +29,9 @@ export class AppService {
       workStatistics: stat[0][0],
       totalSalaries: stat[1][0],
     };
+  }
+
+  settings() {
+    return this.adminService.settings();
   }
 }

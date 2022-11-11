@@ -10,7 +10,13 @@ export class AppController {
 
   @Roles(Role.Admin, Role.SuperAdmin, Role.User)
   @Get('/statistics')
-  stats(@Query() filter?: Filter) {
+  statistics(@Query() filter?: Filter) {
     return this.appService.statistics(filter);
+  }
+
+  @Roles(Role.Admin, Role.SuperAdmin, Role.User)
+  @Get('/settings')
+  settings() {
+    return this.appService.settings();
   }
 }

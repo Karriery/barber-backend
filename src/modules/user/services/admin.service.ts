@@ -66,9 +66,12 @@ export class AdminService {
     return this.adminRepository.updateOne({ email }, updateAdminDto);
   }
 
-  settings() {
+  async settings() {
+    const admin = await this.adminRepository.findOne({
+      where: { email: 'jouini.hamza@innosys.tech' },
+    });
     return {
-      priceModification: this.admin.priceModification,
+      priceModification: admin.priceModification,
     };
   }
 }
