@@ -16,4 +16,9 @@ export class CreateAdminDto {
   @IsNotEmpty()
   @ApiProperty()
   phone: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  priceModification: number;
 }
