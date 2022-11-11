@@ -233,7 +233,7 @@ export class PaymentService {
             $sum: '$lookupdata.price',
           },
           totalCuts: {
-            $size: '$lookupdata',
+            $sum: 1,
           },
           userCost: {
             $sum: {
