@@ -164,11 +164,11 @@ export class UserService {
       },
       {
         $addFields: {
-          manualProfitCash: {
-            $sum: ['$lookupPayments.manualProfitCash'],
-          },
-          manualProfitCreditCard: {
-            $sum: ['$lookupPayments.manualProfitCreditCard'],
+          profit: {
+            $sum: [
+              '$lookupPayments.manualProfitCreditCard',
+              '$lookupPayments.manualProfitCash',
+            ],
           },
           costPrice: {
             $sum: '$lookupPayments.cost',
@@ -185,12 +185,6 @@ export class UserService {
         $project: {
           lookupCut: 0,
           lookupPayments: 0,
-          profit: {
-            $sum: [
-              '$lookupPayments.manualProfitCreditCard',
-              '$lookupPayments.manualProfitCash',
-            ],
-          },
         },
       },
       {
