@@ -129,10 +129,6 @@ export class UserService {
           .toDate()
       : moment().endOf('month').hours(1).minutes(0).seconds(0).toDate();
 
-    console.log('====================================');
-    console.log(start, end);
-    console.log('====================================');
-
     return this.userRepository.aggregate([
       {
         $lookup: {
@@ -168,11 +164,14 @@ export class UserService {
       },
       {
         $addFields: {
-          orderPrice: {
-            $sum: [
-              '$lookupPayments.manualProfitCash',
-              //'$lookupPayments.manualProfitCreditCard',
-            ],
+          manualProfitCash: {
+            $sum: ['$lookupPayments.manualProfitCash'],
+          },
+          manualProfitCreditCard: {
+            $sum: ['$lookupPayments.manualProfitCreditCard'],
+          },
+          profit: {
+            $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
           },
           costPrice: {
             $sum: '$lookupPayments.cost',
@@ -190,10 +189,10 @@ export class UserService {
         $group: {
           _id: '$_id',
           name: { $last: { $concat: ['$firstName', ' ', '$lastName'] } },
-          salary: { $sum: { $multiply: ['$orderPrice', 0.5] } },
+          salary: { $sum: { $multiply: ['$profit', 0.5] } },
           cost: { $sum: '$costPrice' },
           totalTva: { $sum: '$tva' },
-          profit: { $sum: '$orderPrice' },
+          profit: { $sum: '$profit' },
           cutsCount: { $sum: '$totalCuts' },
         },
       },
