@@ -213,6 +213,7 @@ export class UserService {
               $subtract: [{ $multiply: ['$orderPrice', 0.5] }, '$costPersonal'],
             },
           },
+          costPersonal: { $sum: '$costPersonal' },
           cost: { $sum: '$costPrice' },
           totalTva: { $sum: '$tva' },
           profit: { $sum: '$orderPrice' },
