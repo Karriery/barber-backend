@@ -14,6 +14,7 @@ import { generateApiKey } from 'generate-api-key';
 import { UserFilter } from '../dto/filter.dto';
 import { Filter } from 'src/app.service';
 import * as moment from 'moment';
+import { WithdrawalReason } from 'src/modules/payment/entities/payment.entity';
 
 function randomCode() {
   return (Math.random() * 10 + '').replace('.', '').slice(0, 4);
@@ -180,6 +181,15 @@ export class UserService {
           tva: {
             $sum: ['$lookupPayments.tva'],
           },
+          costPersonal: {
+            $sum: {
+              $cond: [
+                { $eq: ['$costReason', WithdrawalReason.PERSONAL_COST] },
+                '$lookupPayments.cost',
+                0,
+              ],
+            },
+          },
           totalCuts: {
             $sum: {
               $cond: [{ $eq: ['$costReason', null] }, 1, 0],
@@ -198,7 +208,11 @@ export class UserService {
         $group: {
           _id: '$_id',
           name: { $last: { $concat: ['$firstName', ' ', '$lastName'] } },
-          salary: { $sum: { $multiply: ['$orderPrice', 0.5] } },
+          salary: {
+            $sum: {
+              $subtract: [{ $multiply: ['$orderPrice', 0.5] }, '$costPersonal'],
+            },
+          },
           cost: { $sum: '$costPrice' },
           totalTva: { $sum: '$tva' },
           profit: { $sum: '$orderPrice' },

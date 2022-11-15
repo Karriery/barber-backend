@@ -147,6 +147,15 @@ export class PaymentService {
           profit: {
             $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
           },
+          costPersonal: {
+            $sum: {
+              $cond: [
+                { $eq: ['$costReason', WithdrawalReason.PERSONAL_COST] },
+                '$cost',
+                0,
+              ],
+            },
+          },
         },
       },
       {
@@ -160,7 +169,11 @@ export class PaymentService {
       {
         $group: {
           _id: new mongoose.Types.ObjectId(id),
-          salary: { $sum: { $multiply: ['$profit', 0.5] } },
+          salary: {
+            $sum: {
+              $subtract: [{ $multiply: ['$profit', 0.5] }, '$costPersonal'],
+            },
+          },
         },
       },
     ]);
@@ -176,6 +189,15 @@ export class PaymentService {
           profit: {
             $sum: ['$manualProfitCash', '$manualProfitCreditCard'],
           },
+          costPersonal: {
+            $sum: {
+              $cond: [
+                { $eq: ['$costReason', WithdrawalReason.PERSONAL_COST] },
+                '$cost',
+                0,
+              ],
+            },
+          },
         },
       },
       {
@@ -189,7 +211,11 @@ export class PaymentService {
       {
         $group: {
           _id: new mongoose.Types.ObjectId(),
-          salary: { $sum: { $multiply: ['$profit', 0.5] } },
+          salary: {
+            $sum: {
+              $subtract: [{ $multiply: ['$profit', 0.5] }, '$costPersonal'],
+            },
+          },
         },
       },
     ]);
