@@ -152,6 +152,7 @@ export class PaymentService {
               $cond: [
                 {
                   $strcasecmp: ['$costReason', 'PERSONAL_COST'],
+                  $ne: ['$costReason', null],
                 },
                 '$cost',
                 0,
@@ -196,6 +197,7 @@ export class PaymentService {
               $cond: [
                 {
                   $strcasecmp: ['$costReason', 'PERSONAL_COST'],
+                  $ne: ['$costReason', null],
                 },
                 '$cost',
                 0,
@@ -272,6 +274,7 @@ export class PaymentService {
               $cond: [
                 {
                   $strcasecmp: ['$costReason', 'PERSONAL_COST'],
+                  $ne: ['$costReason', null],
                 },
                 '$cost',
                 0,

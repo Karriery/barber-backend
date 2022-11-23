@@ -186,6 +186,7 @@ export class UserService {
               $cond: [
                 {
                   $strcasecmp: ['$costReason', 'PERSONAL_COST'],
+                  $ne: ['$costReason', null],
                 },
                 '$lookupPayments.cost',
                 0,
