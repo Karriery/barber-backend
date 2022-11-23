@@ -151,7 +151,7 @@ export class PaymentService {
             $sum: {
               $cond: [
                 {
-                  $strcasecmp: ['$costReason', 'PERSONAL_COST'],
+                  $eq: ['$costReason', 'PERSONAL_COST'],
                 },
                 '$cost',
                 0,
@@ -195,7 +195,7 @@ export class PaymentService {
             $sum: {
               $cond: [
                 {
-                  $strcasecmp: ['$costReason', 'PERSONAL_COST'],
+                  $eq: ['$costReason', 'PERSONAL_COST'],
                 },
                 '$cost',
                 0,
@@ -271,7 +271,7 @@ export class PaymentService {
             $sum: {
               $cond: [
                 {
-                  $strcasecmp: ['$costReason', 'PERSONAL_COST'],
+                  $eq: ['$costReason', 'PERSONAL_COST'],
                 },
                 '$cost',
                 0,
