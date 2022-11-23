@@ -157,7 +157,7 @@ export class UserService {
                       {
                         $strcasecmp: ['$costReason', 'PERSONAL_COST'],
                       },
-                      '$lookupPayments.cost',
+                      '$cost',
                       0,
                     ],
                   },
