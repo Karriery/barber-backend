@@ -185,7 +185,7 @@ export class UserService {
             $sum: {
               $cond: [
                 {
-                  $cmp: ['$costReason', 'PERSONAL_COST'],
+                  $strcasecmp: ['$costReason', 'PERSONAL_COST'],
                 },
                 '$lookupPayments.cost',
                 0,
