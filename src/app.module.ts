@@ -17,7 +17,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     UserModule,
     ConfigModule.forRoot(),
     MongooseModule.forRoot(
-      `mongodb+srv://root:root@cluster0.vahx0yk.mongodb.net/${process.env.DB_NAME}`,
+      `mongodb+srv://nahtah:BassemNahtah2022@cluster0.htiakxa.mongodb.net/${process.env.DB_NAME}`,
     ),
     MulterModule.register({
       dest: '../upload',
