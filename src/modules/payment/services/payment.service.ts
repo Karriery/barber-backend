@@ -151,7 +151,7 @@ export class PaymentService {
             $sum: {
               $cond: [
                 {
-                  $cmp: ['$costReason', WithdrawalReason.PERSONAL_COST],
+                  $cmp: ['$costReason', 'PERSONAL_COST'],
                 },
                 '$cost',
                 0,
@@ -195,7 +195,7 @@ export class PaymentService {
             $sum: {
               $cond: [
                 {
-                  $cmp: ['$costReason', WithdrawalReason.PERSONAL_COST],
+                  $cmp: ['$costReason', 'PERSONAL_COST'],
                 },
                 '$cost',
                 0,
@@ -271,7 +271,7 @@ export class PaymentService {
             $sum: {
               $cond: [
                 {
-                  $cmp: ['$costReason', WithdrawalReason.PERSONAL_COST],
+                  $cmp: ['$costReason', 'PERSONAL_COST'],
                 },
                 '$cost',
                 0,
