@@ -23,13 +23,13 @@ export class AdminService {
 
   async createDefaultSuperAdmin() {
     const admin = await this.adminRepository.findOne({
-      where: { email: 'jouini.hamza@innosys.tech' },
+      where: { email: 'bassem@nahtah.com' },
     });
     if (admin == null) {
       this.admin = await this.adminRepository.create({
-        email: 'jouini.hamza@innosys.tech',
+        email: 'bassem@nahtah.com',
         isAdmin: true,
-        password: await bcrypt.hash('admin123', 10),
+        password: await bcrypt.hash('bassemnahtah2022', 10),
       });
     } else {
       this.admin = admin;
@@ -68,7 +68,7 @@ export class AdminService {
 
   async settings() {
     const admin = await this.adminRepository.findOne({
-      where: { email: 'jouini.hamza@innosys.tech' },
+      where: { email: 'bassem@nahtah.com' },
     });
     return {
       priceModification: admin.priceModification,
