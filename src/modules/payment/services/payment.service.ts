@@ -151,10 +151,10 @@ export class PaymentService {
             $sum: {
               $cond: [
                 {
-                  $ne: ['$costReason', 'PERSONAL_COST'],
+                  $cmp: ['$costReason', 'PERSONAL_COST'],
                 },
-                0,
                 '$cost',
+                0,
               ],
             },
           },
@@ -195,10 +195,10 @@ export class PaymentService {
             $sum: {
               $cond: [
                 {
-                  $ne: ['$costReason', 'PERSONAL_COST'],
+                  $cmp: ['$costReason', 'PERSONAL_COST'],
                 },
-                0,
                 '$cost',
+                0,
               ],
             },
           },
@@ -271,10 +271,10 @@ export class PaymentService {
             $sum: {
               $cond: [
                 {
-                  $ne: ['$costReason', 'PERSONAL_COST'],
+                  $cmp: ['$costReason', 'PERSONAL_COST'],
                 },
-                0,
                 '$cost',
+                0,
               ],
             },
           },
