@@ -151,6 +151,20 @@ export class UserService {
                 profit: {
                   $sum: ['$manualProfitCreditCard', '$manualProfitCash'],
                 },
+                x: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $strcasecmp: [
+                          '$lookupPayments.costReason',
+                          'PERSONAL_COST',
+                        ],
+                      },
+                      '$lookupPayments.cost',
+                      0,
+                    ],
+                  },
+                },
               },
             },
           ],
@@ -182,15 +196,7 @@ export class UserService {
             $sum: ['$lookupPayments.tva'],
           },
           costPersonal: {
-            $sum: {
-              $cond: [
-                {
-                  $strcasecmp: ['$lookupPayments.costReason', 'PERSONAL_COST'],
-                },
-                '$lookupPayments.cost',
-                0,
-              ],
-            },
+            $sum: '$lookupPayments.x',
           },
           totalCuts: {
             $sum: {
