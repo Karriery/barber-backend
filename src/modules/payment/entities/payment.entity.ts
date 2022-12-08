@@ -15,7 +15,7 @@ export enum WithdrawalReason {
   CUT_COST = 'CUT_COST',
 }
 
-@Schema({ timestamps: false })
+@Schema({ timestamps: true })
 export class Payment {
   @ApiProperty()
   _id: string;
