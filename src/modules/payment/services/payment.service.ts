@@ -63,6 +63,7 @@ export class PaymentService {
           /*settings.priceModification */ createPaymentDto.manualProfitCreditCard,
         priceModification: settings.priceModification,
         createdAt: moment(Date.now()).utcOffset("+03:00").toDate(),
+        updatedAt: moment(Date.now()).utcOffset("+03:00").toDate(),
       });
       user.payments.push(payment);
       await this.userService.updateRAW(user._id, user);
