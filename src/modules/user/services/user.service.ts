@@ -219,7 +219,7 @@ export class UserService {
             },
           },
           costPersonal: { $sum: '$costPersonal' },
-          cost: { $sum: '$costPrice' },
+          cost: { $sum: '$costPersonal' },
           totalTva: { $sum: '$tva' },
           profit: { $sum: '$orderPrice' },
           cutsCount: { $sum: '$totalCuts' },
