@@ -70,7 +70,6 @@ export class Payment {
   @Prop({ nullable: true })
   description: string;
 
-  @Prop()
   createdAt: Date;
 }
 
