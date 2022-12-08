@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 import mongoose, { Model } from 'mongoose';
 import { Filter } from 'src/app.service';
 import { AdminService } from 'src/modules/user/services/admin.service';
@@ -62,6 +62,7 @@ export class PaymentService {
         manualProfitCreditCard:
           /*settings.priceModification */ createPaymentDto.manualProfitCreditCard,
         priceModification: settings.priceModification,
+        createdAt: moment(Date.now()).tz('Asia/Aden').toDate(),
       });
       user.payments.push(payment);
       await this.userService.updateRAW(user._id, user);
@@ -86,12 +87,7 @@ export class PaymentService {
   findAll(filter?: PaymentFilter) {
     const start = filter.dateStart
       ? moment(filter.dateStart).hours(1).minutes(0).seconds(0).toDate()
-      : moment(Date.now())
-          .startOf('month')
-          .hours(1)
-          .minutes(0)
-          .seconds(0)
-          .toDate();
+      : moment().startOf('month').hours(1).minutes(0).seconds(0).toDate();
     const end = filter.dateEnd
       ? moment(filter.dateEnd)
           .hours(1)
@@ -99,12 +95,7 @@ export class PaymentService {
           .seconds(0)
           .add(1, 'days')
           .toDate()
-      : moment(Date.now())
-          .endOf('month')
-          .hours(1)
-          .minutes(0)
-          .seconds(0)
-          .toDate();
+      : moment().endOf('month').hours(1).minutes(0).seconds(0).toDate();
     console.log(filter.dateStart);
 
     return this.paymentRepository
@@ -112,13 +103,10 @@ export class PaymentService {
         user: filter.userId
           ? new mongoose.Types.ObjectId(filter.userId)
           : { $ne: null },
-        createdAt:
-          filter.dateStart && filter.dateEnd
-            ? {
-                $gte: start,
-                $lt: end,
-              }
-            : { $ne: null },
+        createdAt: {
+          $gte: start,
+          $lt: end,
+        },
         costReason: !(filter.widthrwal && filter.widthrwal == 'true')
           ? null
           : { $ne: null },
