@@ -98,14 +98,14 @@ export class PaymentService {
           .hours(1)
           .minutes(0)
           .seconds(0)
-          .add(1, 'days')
+          //.add(1, 'days')
           .toDate()
       : moment('07/12/2022', 'DD/MM/YYYY') /*.endOf('day')*/
           .hours(1)
           .minutes(0)
           .seconds(0)
           .toDate();
-    console.log(filter.dateStart);
+    console.log(start, end);
 
     const payments = await this.paymentRepository
       .find({
