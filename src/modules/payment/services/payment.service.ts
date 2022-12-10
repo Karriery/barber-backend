@@ -89,7 +89,7 @@ export class PaymentService {
     const start = filter.dateStart
       ? moment(filter.dateStart).hours(1).minutes(0).seconds(0).toDate()
       : moment('07/12/2022', 'DD/MM/YYYY') /*.startOf('day')*/
-          .hours(1)
+          .hours(0)
           .minutes(0)
           .seconds(0)
           .toDate();
@@ -98,11 +98,12 @@ export class PaymentService {
           .hours(1)
           .minutes(0)
           .seconds(0)
-          //.add(1, 'days')
+          .add(1, 'days')
           .toDate()
       : moment('07/12/2022', 'DD/MM/YYYY') /*.endOf('day')*/
-          .hours(1)
+          .hours(0)
           .minutes(0)
+          .add(1, 'days')
           .seconds(0)
           .toDate();
     console.log(start, end);
