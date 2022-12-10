@@ -103,7 +103,7 @@ export class PaymentService {
       .find({
         user: filter.userId
           ? new mongoose.Types.ObjectId(filter.userId)
-          : { $ne: null },
+          : { $ne: new mongoose.Types.ObjectId() },
         createdAt: {
           $gte: start,
           $lt: end,
