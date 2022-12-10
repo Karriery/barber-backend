@@ -88,11 +88,7 @@ export class PaymentService {
   async findAll(filter?: PaymentFilter) {
     const start = filter.dateStart
       ? moment(filter.dateStart).hours(1).minutes(0).seconds(0).toDate()
-      : moment('07/12/2022', 'DD/MM/YYYY') /*.startOf('day')*/
-          .hours(0)
-          .minutes(0)
-          .seconds(0)
-          .toDate();
+      : moment().startOf('month').hours(1).minutes(0).seconds(0).toDate();
     const end = filter.dateEnd
       ? moment(filter.dateEnd)
           .hours(1)
@@ -100,13 +96,8 @@ export class PaymentService {
           .seconds(0)
           .add(1, 'days')
           .toDate()
-      : moment('07/12/2022', 'DD/MM/YYYY') /*.endOf('day')*/
-          .hours(0)
-          .minutes(0)
-          .add(1, 'days')
-          .seconds(0)
-          .toDate();
-    console.log(start, end);
+      : moment().endOf('month').hours(1).minutes(0).seconds(0).toDate();
+    console.log(filter.dateStart);
 
     const payments = await this.paymentRepository
       .find({
