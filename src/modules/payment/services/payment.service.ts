@@ -62,8 +62,8 @@ export class PaymentService {
         manualProfitCreditCard:
           /*settings.priceModification */ createPaymentDto.manualProfitCreditCard,
         priceModification: settings.priceModification,
-        createdAt: moment(Date.now()).add(3,"hours").toDate(),
-        updatedAt: moment(Date.now()).add(3,"hours").toDate(),
+        createdAt: moment(Date.now()).add(3, 'hours').toDate(),
+        updatedAt: moment(Date.now()).add(3, 'hours').toDate(),
       });
       user.payments.push(payment);
       await this.userService.updateRAW(user._id, user);
@@ -85,7 +85,7 @@ export class PaymentService {
     );
   }
 
-  findAll(filter?: PaymentFilter) {
+  async findAll(filter?: PaymentFilter) {
     const start = filter.dateStart
       ? moment(filter.dateStart).hours(1).minutes(0).seconds(0).toDate()
       : moment().startOf('month').hours(1).minutes(0).seconds(0).toDate();
@@ -99,7 +99,7 @@ export class PaymentService {
       : moment().endOf('month').hours(1).minutes(0).seconds(0).toDate();
     console.log(filter.dateStart);
 
-    return this.paymentRepository
+    const payments = await this.paymentRepository
       .find({
         user: filter.userId
           ? new mongoose.Types.ObjectId(filter.userId)
@@ -122,6 +122,8 @@ export class PaymentService {
       .sort({ createdAt: filter.asc ? 1 : -1 })
       .skip(filter.cursor)
       .limit(filter.limit);
+    console.log(payments);
+    return payments;
   }
 
   findOne(id: string) {
