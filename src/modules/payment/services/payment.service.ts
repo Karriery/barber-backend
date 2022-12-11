@@ -97,8 +97,6 @@ export class PaymentService {
           .add(1, 'days')
           .toDate()
       : moment().endOf('month').hours(1).minutes(0).seconds(0).toDate();
-    console.log(filter.dateStart);
-
     const payments = await this.paymentRepository
       .find({
         user: filter.userId
