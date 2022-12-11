@@ -120,7 +120,6 @@ export class PaymentService {
       .sort({ createdAt: filter.asc ? 1 : -1 })
       .skip(filter.cursor)
       .limit(filter.limit);
-    console.log(payments);
     return payments;
   }
 
